@@ -4,22 +4,22 @@ import { Colors } from '../../../../constants/colors';
 import { styles } from './style';
 
 interface PokemonCardProps {
-  name: string;
-  number: string;
-  type: string;
-  typeColor: string;
-  image: ImageSourcePropType;
-  atk: number;
-  def: number;
-  spd: number;
+  name?: string;
+  number?: string;
+  type?: string;
+  typeColor?: string;
+  image?: string | ImageSourcePropType;
+  atk?: number;
+  def?: number;
+  spd?: number;
 }
 
 export function PokemonCard({ name, number, type, typeColor, image, atk, def, spd }: PokemonCardProps) {
-  const StatBar = ({ label, value, color }: { label: string, value: number, color: string }) => (
+  const StatBar = ({ label, value, color }: { label: string, value?: number, color: string }) => (
     <View style={styles.statRow}>
       <Text style={styles.statLabel}>{label}</Text>
       <View style={styles.statBarBg}>
-        <View style={[styles.statBarFill, { width: `${value}%`, backgroundColor: color }]} />
+        <View style={[styles.statBarFill, { width: `${value ?? 0}%`, backgroundColor: color }]} />
       </View>
     </View>
   );
@@ -27,7 +27,7 @@ export function PokemonCard({ name, number, type, typeColor, image, atk, def, sp
   return (
     <View style={styles.card}>
       <View style={styles.imageContainer}>
-        <Image source={image} style={styles.image} resizeMode="cover" />
+        <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} resizeMode="cover" />
         <View style={[styles.typeBadge, { backgroundColor: typeColor }]}>
           <Text style={styles.typeText}>{type}</Text>
         </View>

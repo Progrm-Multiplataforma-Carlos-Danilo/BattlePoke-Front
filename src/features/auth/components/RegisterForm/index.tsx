@@ -23,7 +23,11 @@ export function RegisterForm() {
         resolver:
             yupResolver(
                 registerSchema
-            )
+            ),
+        defaultValues: {
+            email: '',
+            senha: ''
+        }
 
     });
 

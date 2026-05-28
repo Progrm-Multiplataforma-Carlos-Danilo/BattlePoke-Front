@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     borderRadius: 16,
     overflow: 'hidden',
-    width: 260,
+    width: '100%',
     borderWidth: 1,
     borderColor: Colors.border,
   },

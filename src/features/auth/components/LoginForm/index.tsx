@@ -23,7 +23,11 @@ export function LoginForm() {
         resolver:
             yupResolver(
                 loginSchema
-            )
+            ),
+        defaultValues: {
+            email: '',
+            senha: ''
+        }
 
     });
 
