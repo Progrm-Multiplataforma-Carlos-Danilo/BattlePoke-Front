@@ -2,80 +2,36 @@ import { Colors } from '@/constants/colors';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-
-  columnWrapper: {
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-
-  listContent: {
-    paddingBottom: 12,
-  },
-  itemWrapper: {
-    flex: 1,
-    position: 'relative',
-    maxWidth: '30%',
-    paddingHorizontal: 6,
-    paddingVertical: 6,
-    marginBottom: 12,
-  },
-  backgroundTypes: {
-    position: 'absolute',
-    top: -2,
-    left: 2,
-    right: 2,
-    bottom: 10,
-    zIndex: -1,
-    borderRadius: 20,
-    overflow: 'hidden',
-    flexDirection: 'row',
-    opacity: 0.5
-  },
   card: {
     backgroundColor: Colors.surface,
     borderRadius: 16,
     overflow: 'hidden',
-    width: '100%',
+    width: 260,
     borderWidth: 1,
     borderColor: Colors.border,
   },
   imageContainer: {
-    height: 150,
+    height: 220,
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#303030',
+    position: 'relative',
   },
   image: {
     width: '100%',
     height: '100%',
   },
-
-  typesContainer: {
+  typeBadge: {
     position: 'absolute',
     top: 12,
     right: 12,
-    flexDirection: 'row',
-    gap: 4,
-  },
-
-
-  typeBadge: {
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
   },
-  typeBackground: {
-    flex: 1,
-    height: '100%'
-  },
-
   typeText: {
     color: Colors.text.primary,
     fontSize: 10,
     fontWeight: 'bold',
   },
-
   info: {
     padding: 16,
   },

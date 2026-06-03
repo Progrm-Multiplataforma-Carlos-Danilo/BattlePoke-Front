@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { Pokemon } from '@homeTypes/pokemon'
+import { Pokemon } from '@sharedTypes/pokemon'
+
 const API_URL = axios.create({
   baseURL: 'https://pokeapi.co/api/v2'
 })

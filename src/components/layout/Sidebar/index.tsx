@@ -1,33 +1,86 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Platform, Image } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter, usePathname } from 'expo-router';
+import * as Animatable from 'react-native-animatable';
 
 import { styles } from './style';
 import { Colors } from '../../../constants/colors';
 
 export function Header() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(true);
+
+  const navItems = [
+    { name: 'Início', icon: 'home-outline', path: '/Home' },
+    { name: 'Arena', icon: 'sword-cross', path: '/Arena' },
+    { name: 'Pokédex', icon: 'tablet-dashboard', path: '/Pokedex' },
+    { name: 'Rankings', icon: 'poll', path: '/Rankings' },
+    { name: 'Profile', icon: 'account-outline', path: '/Profile' },
+    
+  ] as const;
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>KINETIC STADIUM</Text>
-      
+    <Animatable.View 
+      transition={"width"} 
+      duration={300} 
+      style={[styles.container, !isOpen && styles.containerClose]}
+    >
+      <View style={[styles.logoContainer, !isOpen && styles.logoContainerClose]}>
+        {isOpen && (
+          <Image source={require('../../../../assets/images/Logo.png') } style={styles.logo} />
+        )}
+        <TouchableOpacity onPress={() => setIsOpen(!isOpen)}>
+          <MaterialCommunityIcons 
+            name={isOpen ? 'chevron-left' : 'chevron-right'} 
+            size={30} 
+            color={Colors.text.secondary} 
+          />
+        </TouchableOpacity>
+      </View>
+
       {Platform.OS === 'web' && (
         <View style={styles.nav}>
-          <TouchableOpacity><Text style={[styles.navLink, styles.activeLink]}>Home</Text></TouchableOpacity>
-          <TouchableOpacity><Text style={styles.navLink}>Features</Text></TouchableOpacity>
-          <TouchableOpacity><Text style={styles.navLink}>Pokedex</Text></TouchableOpacity>
-          <TouchableOpacity><Text style={styles.navLink}>Rankings</Text></TouchableOpacity>
+          {navItems.map((item) => {
+            const isActive = pathname.includes(item.path);
+            return (
+              <TouchableOpacity 
+                key={item.name}
+                style={[styles.navItem, isActive && styles.activeNavItem, !isOpen && styles.navItemClose]}
+                onPress={() => router.push(item.path as any)}
+              >
+                <MaterialCommunityIcons 
+                  name={item.icon} 
+                  size={20} 
+                  color={isActive ? "#000" : Colors.text.secondary} 
+                />
+              
+                {isOpen && (
+                  <Text style={[styles.navLink, isActive && styles.activeLink]}>{item.name}</Text>
+                )}
+              </TouchableOpacity>
+            )
+          })}
         </View>
       )}
 
-      <View style={styles.rightSection}>
-        <TouchableOpacity style={styles.bellIcon}>
-          <Text style={{ color: Colors.text.primary }}>🔔</Text>
+      <View style={styles.DownSection}>
+        <TouchableOpacity style={[styles.OptionsButton, !isOpen && styles.navItemClose]}>
+          {isOpen ? (
+            <Text style={styles.OptionsButtonText}>Suporte</Text>
+          ) : (
+            <MaterialCommunityIcons name="help-circle-outline" size={24} color={Colors.text.secondary} />
+          )}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.battleButton}>
-          <Text style={styles.battleButtonText}>BATTLE NOW</Text>
+        <TouchableOpacity style={[styles.OptionsButton, !isOpen && styles.navItemClose]} onPress={() => router.replace('/')}>
+          {isOpen ? (
+            <Text style={styles.OptionsButtonText}>Exit</Text>
+          ) : (
+            <MaterialCommunityIcons name="logout" size={24} color={Colors.text.secondary} />
+          )}
         </TouchableOpacity>
       </View>
-    </View>
+    </Animatable.View>
   );
 }
-
- 

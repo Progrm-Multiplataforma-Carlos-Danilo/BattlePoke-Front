@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, Pressable, Image, Platform } from 'react-native';
 import { Colors } from '../constants/colors';
-import { PokemonCard } from '../components/ui/Cards/PokeCard/PokemonCard';
 import { Navbar } from '../components/layout/Landinpage/Navbar';
 import { HoverButton } from '../components/ui/Buttons/HoverButton';
 import { Footer } from '@/components/layout/Footer';
+import { LadinCard } from '@/components/ui/Cards/LadinCard/LadinCard';
 
 
 export default function LandingPage() {
@@ -148,22 +148,22 @@ export default function LandingPage() {
                         </View>
 
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pokemonGrid}>
-                            <PokemonCard
+                            <LadinCard
                                 name="CHARIZARD" number="#006" type="FIRE" typeColor={Colors.types.fire}
                                 image={require('../../assets/images/charizard.png')}
                                 atk={90} def={60} spd={80}
                             />
-                            <PokemonCard
+                             <LadinCard
                                 name="BLASTOISE" number="#009" type="WATER" typeColor={Colors.types.water}
                                 image={require('../../assets/images/blastoise.png')}
                                 atk={70} def={95} spd={50}
                             />
-                            <PokemonCard
+                             <LadinCard
                                 name="PIKACHU" number="#025" type="ELECTRIC" typeColor={Colors.types.electric}
                                 image={require('../../assets/images/pikachu.png')}
                                 atk={65} def={45} spd={95}
                             />
-                            <PokemonCard
+                             <LadinCard
                                 name="MEWTWO" number="#150" type="PSYCHIC" typeColor={Colors.types.psychic}
                                 image={require('../../assets/images/mewtwo.png')}
                                 atk={98} def={75} spd={90}

@@ -12,11 +12,8 @@ export function Navbar() {
      style={styles.logo}
      />
       <View style={styles.rightSection}>
-        <TouchableOpacity style={styles.bellIcon}>
-          <Text style={{ color: Colors.text.primary }}>🔔</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.battleButton} onPress={() => router.push('/Login')}>
-          <Text style={styles.battleButtonText}>BATTLE NOW</Text>
+          <Text style={styles.battleButtonText}>Batalhar agora</Text>
         </TouchableOpacity>
       </View>
     </View>

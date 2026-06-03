@@ -12,6 +12,18 @@
       ],
       "@homeIntegrations/*": [
         "./src/features/home/integration/*"
+      ],
+      "@pokedexTypes/*": [
+        "./src/features/pokedex/@types/*"
+      ],
+      "@pokedexIntegrations/*": [
+        "./src/features/pokedex/integration/*"
+      ],
+      "@sharedTypes/*": [
+        "./src/shared/types/*"
+      ],
+      "@sharedApi/*": [
+        "./src/shared/api/*"
       ]
     }
   },

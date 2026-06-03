@@ -1,56 +1,82 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { Colors } from "../../../constants/colors";
 
 export const styles = StyleSheet.create({
- container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 32,
-    paddingVertical: 20,
-    backgroundColor: 'rgba(18, 18, 20, 0.8)',
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+  container: {
+    width: 240,
+    height: '100%',
+    backgroundColor: '#1C1F26',
+    borderLeftWidth: 4,
+    paddingVertical: 32,
+    justifyContent: 'flex-start',
     zIndex: 10,
   },
+  containerClose: {
+    width: 80,
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    marginBottom: 40,
+  },
+  logoContainerClose: {
+    justifyContent: 'center',
+    paddingHorizontal: 0,
+  },
   logo: {
-    color: Colors.primary,
-    fontSize: 20,
-    fontWeight: 'bold',
-    letterSpacing: 1,
+    width: 120,
+    height: 40,
+    resizeMode: 'contain',
   },
   nav: {
+    flex: 1,
+    flexDirection: 'column',
+    gap: 8,
+    paddingHorizontal: 16,
+  },
+  navItem: {
     flexDirection: 'row',
-    gap: 32,
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    gap: 16,
+  },
+  navItemClose: {
+    justifyContent: 'center',
+    paddingHorizontal: 0,
+  },
+  activeNavItem: {
+    backgroundColor: Colors.secondary, 
   },
   navLink: {
     color: Colors.text.secondary,
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 15,
+    fontWeight: '600',
   },
   activeLink: {
-    color: Colors.primary,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.primary,
-    paddingBottom: 4,
+    color: '#000000', 
   },
-  rightSection: {
+  DownSection: {
+    marginTop: 'auto',
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    gap: 12,
+  },
+  OptionsButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
   },
-  bellIcon: {
-    padding: 8,
-  },
-  battleButton: {
-    backgroundColor: Colors.primary,
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  battleButtonText: {
-    color: Colors.text.primary,
-    fontWeight: 'bold',
+  OptionsButtonText: {
+    color: Colors.text.secondary,
     fontSize: 14,
+    fontWeight: '500',
+    textTransform: 'capitalize',
   },
 });

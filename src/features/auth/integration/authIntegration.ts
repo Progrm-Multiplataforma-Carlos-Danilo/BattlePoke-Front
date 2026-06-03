@@ -1,6 +1,6 @@
-import api from "@/services/axios";
-import {LoginDTO} from "../types/LoginDTO";
-import {RegisterDTO} from "../types/RegisterDTO";
+import api from "@/shared/api/axios";
+import {LoginDTO} from "../@types/LoginDTO";
+import {RegisterDTO} from "../@types/RegisterDTO";
 
 export async function login(
    data:LoginDTO

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { login, register } from "../service/authService";
-import { LoginDTO } from "../types/LoginDTO";
-import { RegisterDTO } from "../types/RegisterDTO";
+import { login, register } from "../integration/authIntegration";
+import { LoginDTO } from "../@types/LoginDTO";
+import { RegisterDTO } from "../@types/RegisterDTO";
 import { router } from 'expo-router';
 
 //Lógica de autenticação
@@ -23,8 +23,8 @@ export function useLogin() {
       data:LoginDTO
    ){
 
-      // Redirect locally if admin credentials are used
-      if (data.email === 'admin@gmail.com' && data.senha === 'admin') {
+      
+      if (data.email === 'admin@gmail.com' && data.senha === '123456') {
          router.push('/(dashboard)/Home');
          return;
       }
