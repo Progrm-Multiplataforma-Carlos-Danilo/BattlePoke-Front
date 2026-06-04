@@ -25,8 +25,8 @@ export default function SelectionPokemon({ selectedPokemons = [], onSlotPress, o
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerTitles}>
-                    <Text style={styles.title}>Battle Team</Text>
-                    <Text style={styles.subtitle}>SLOT SELECTION ({selectedPokemons.length}/{maxSlots})</Text>
+                    <Text style={styles.title}>Time de batalha</Text>
+                    <Text style={styles.subtitle}>slot de pokemon({selectedPokemons.length}/{maxSlots})</Text>
                 </View>
                 <MaterialCommunityIcons name="sword-cross" size={24} color={Colors.text.primary} />
             </View>

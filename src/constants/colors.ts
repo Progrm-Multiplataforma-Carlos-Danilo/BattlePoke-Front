@@ -21,19 +21,19 @@ export const Colors = {
     water: '#2196F3',
     electric: '#FFEB3B',
     psychic: '#9C27B0',
-    flying: '#9E9E9E',
+    flying: '#87b9ee',
     grass: '#4CAF50',
     poison: '#9C27B0',
     bug: '#8BC34A',
     normal: '#9E9E9E',
     dark: '#37474F',
     dragon: '#7C4DFF',
-    fairy: '#E91E63',
+    fairy: 'rgb(228, 72, 124)',
     fighting: '#FF9800',
     rock: '#795548',
     ground: '#795548',
     ghost: '#607D8B',
     ice: '#B0BEC5',
-    steel: '#78909C'
+    steel: '#86888a'
   }
 };

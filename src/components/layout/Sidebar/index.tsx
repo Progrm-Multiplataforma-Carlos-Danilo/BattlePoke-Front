@@ -13,10 +13,9 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(true);
 
   const navItems = [
-    { name: 'Início', icon: 'home-outline', path: '/Home' },
+    { name: 'Team', icon: 'account-group', path: '/Home' },
     { name: 'Arena', icon: 'sword-cross', path: '/Arena' },
     { name: 'Pokédex', icon: 'tablet-dashboard', path: '/Pokedex' },
-    { name: 'Rankings', icon: 'poll', path: '/Rankings' },
     { name: 'Profile', icon: 'account-outline', path: '/Profile' },
     
   ] as const;
