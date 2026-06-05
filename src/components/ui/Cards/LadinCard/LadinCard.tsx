@@ -1,6 +1,6 @@
-import React from 'react';
+﻿import React from 'react';
 import { View, Text, StyleSheet, Image, ImageSourcePropType } from 'react-native';
-import { Colors } from '../../../../constants/colors';
+import { colors } from '../../../../constants/colors';
 import { styles } from './style';
 
 interface PokemonCardProps {
@@ -37,9 +37,9 @@ export function LadinCard({ name, number, type, typeColor, image, atk, def, spd 
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.number}>{number}</Text>
         </View>
-        <StatBar label="ATK" value={atk} color={Colors.primary} />
-        <StatBar label="DEF" value={def} color={Colors.secondary} />
-        <StatBar label="SPD" value={spd} color={Colors.rankings.gold} />
+        <StatBar label="ATK" value={atk} color={colors.primary} />
+        <StatBar label="DEF" value={def} color={colors.secondary} />
+        <StatBar label="SPD" value={spd} color={colors.rankings.gold} />
       </View>
     </View>
   );

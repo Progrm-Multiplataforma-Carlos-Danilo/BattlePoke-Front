@@ -1,14 +1,14 @@
-import { Colors } from "@/constants/colors";
+﻿import { colors } from "@/constants/colors";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.background,
+        backgroundColor: colors.background,
         padding: 20,
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: Colors.border,
+        borderColor: colors.border,
     },
     header: {
         flexDirection: 'row',
@@ -20,13 +20,13 @@ export const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     title: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontSize: 20,
         fontWeight: 'bold',
         textTransform: 'uppercase',
     },
     subtitle: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 12,
         marginTop: 2,
         fontWeight: '600',
@@ -39,17 +39,17 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: Colors.surface,
+        backgroundColor: colors.surface,
         borderRadius: 12,
         padding: 12,
         borderWidth: 1,
-        borderColor: Colors.border,
+        borderColor: colors.border,
         borderStyle: 'dashed',
     },
     pokemonSlotFilled: {
         borderStyle: 'solid',
-        borderColor: Colors.primary,
-        backgroundColor: Colors.surfaceHighlight,
+        borderColor: colors.primary,
+        backgroundColor: colors.surfaceHighlight,
     },
     slotLeft: {
         flexDirection: 'row',
@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
         width: 48,
         height: 48,
         borderRadius: 8,
-        backgroundColor: Colors.surfaceHighlight,
+        backgroundColor: colors.surfaceHighlight,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -72,51 +72,51 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     pokemonName: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontSize: 16,
         fontWeight: 'bold',
         textTransform: 'uppercase',
     },
     pokemonType: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 12,
         marginTop: 4,
     },
     placeholderLine1: {
         width: 60,
         height: 8,
-        backgroundColor: Colors.surfaceHighlight,
+        backgroundColor: colors.surfaceHighlight,
         borderRadius: 4,
         marginBottom: 8,
     },
     placeholderLine2: {
         width: 40,
         height: 8,
-        backgroundColor: Colors.surfaceHighlight,
+        backgroundColor: colors.surfaceHighlight,
         borderRadius: 4,
     },
     slotNumber: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 16,
         fontWeight: 'bold',
         opacity: 0.5,
     },
     readyButton: {
-        backgroundColor: Colors.surfaceHighlight,
+        backgroundColor: colors.surfaceHighlight,
         paddingVertical: 16,
         borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center',
     },
     readyButtonActive: {
-        backgroundColor: Colors.primary,
+        backgroundColor: colors.primary,
     },
     readyButtonText: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 16,
         fontWeight: 'bold',
     },
     readyButtonTextActive: {
-        color: Colors.background,
+        color: colors.background,
     },
 });

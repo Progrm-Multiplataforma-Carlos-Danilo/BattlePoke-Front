@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
-import { Colors } from "../../../constants/colors";
+import { colors } from "../../../constants/colors";
 
 export const styles = StyleSheet.create({
   container: {
@@ -49,10 +49,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   activeNavItem: {
-    backgroundColor: Colors.secondary, 
+    backgroundColor: colors.secondary, 
   },
   navLink: {
-    color: Colors.text.secondary,
+    color: colors.text.secondary,
     fontSize: 15,
     fontWeight: '600',
   },
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
   DownSection: {
     marginTop: 'auto',
     borderTopWidth: 1,
-    borderTopColor: Colors.border,
+    borderTopColor: colors.border,
     paddingTop: 16,
     paddingHorizontal: 16,
     gap: 12,
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   OptionsButtonText: {
-    color: Colors.text.secondary,
+    color: colors.text.secondary,
     fontSize: 14,
     fontWeight: '500',
     textTransform: 'capitalize',

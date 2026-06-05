@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/colors';
+import { colors } from '@/constants/colors';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -95,6 +95,42 @@ export default StyleSheet.create({
     marginTop: 4,
   },
 
+  toastContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+
+  DocToast: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    width: '70%',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 6,
+    borderWidth: 5,
+    borderColor: '#e0f0ff',
+  },
+  DocText: {
+    fontSize: 18,
+    color: '#003580',
+    fontWeight: '600',
+    marginLeft: 12,
+  },
+  DocSubText: {
+    fontSize: 14,
+    color: '#003580',
+    marginLeft: 12,
+    marginTop: 4,
+  },
+
   edicaoToast: {
     backgroundColor: '#fff', 
     borderRadius: 10,
@@ -110,7 +146,7 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 6,
     borderWidth: 5, // Defina a espessura da borda
-    borderColor: Colors.secondary, 
+    borderColor: colors.secondary, 
   },
   edicaoText: {
     fontSize: 18,
@@ -120,7 +156,7 @@ export default StyleSheet.create({
   },
   edicaoSubText: {
     fontSize: 14,
-    color: Colors.secondary,
+    color: colors.secondary,
     marginLeft: 12,
     marginTop: 4,
   },

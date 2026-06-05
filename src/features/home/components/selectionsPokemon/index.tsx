@@ -1,8 +1,8 @@
-import React from "react";
+﻿import React from "react";
 import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from "./style";
-import { Colors } from "@/constants/colors";
+import { colors } from "@/constants/colors";
 import { Pokemon } from '@sharedTypes/pokemon';
 
 interface SelectionPokemonProps {
@@ -28,7 +28,7 @@ export default function SelectionPokemon({ selectedPokemons = [], onSlotPress, o
                     <Text style={styles.title}>Time de batalha</Text>
                     <Text style={styles.subtitle}>slot de pokemon({selectedPokemons.length}/{maxSlots})</Text>
                 </View>
-                <MaterialCommunityIcons name="sword-cross" size={24} color={Colors.text.primary} />
+                <MaterialCommunityIcons name="sword-cross" size={24} color={colors.text.primary} />
             </View>
 
             <View style={styles.slotsContainer}>
@@ -51,7 +51,7 @@ export default function SelectionPokemon({ selectedPokemons = [], onSlotPress, o
                                             resizeMode="contain" 
                                         />
                                     ) : (
-                                        <MaterialCommunityIcons name="plus-circle-outline" size={24} color={Colors.text.secondary} />
+                                        <MaterialCommunityIcons name="plus-circle-outline" size={24} color={colors.text.secondary} />
                                     )}
                                 </View>
 
@@ -83,7 +83,7 @@ export default function SelectionPokemon({ selectedPokemons = [], onSlotPress, o
                 onPress={onReadyPress}
             >
                 <Text style={[styles.readyButtonText, isTeamFull && styles.readyButtonTextActive]}>
-                    Começar batalha
+                    ComeÃ§ar batalha
                 </Text>
             </TouchableOpacity>
         </View>

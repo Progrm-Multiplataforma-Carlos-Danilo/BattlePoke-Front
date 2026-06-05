@@ -8,11 +8,15 @@ import SelectionPokemon from "../../components/selectionsPokemon";
 import Toast from "react-native-toast-message";
 import { Navbar } from "@/components/layout/Landinpage/Navbar";
 import Loading from "@/components/layout/Loading";
+import { useRouter } from "expo-router";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function HomeScreen() {
+  const router = useRouter();
+  const { team: savedTeam, updateTeam } = useAuth();
   const [loading, setLoading] = useState(true);
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-  const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>([]);
+  const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>(savedTeam);
 
   useEffect(() => {
     async function loadData() {
@@ -59,11 +63,8 @@ export default function HomeScreen() {
   };
 
   const handleReadyPress = () => {
-    Toast.show({
-      type: "success",
-      text1: "Time pronto!",
-      text2: "Prepare-se para a batalha!",
-    });
+    updateTeam(selectedPokemons);
+    router.push('/(dashboard)/Battle');
   };
 
   return (

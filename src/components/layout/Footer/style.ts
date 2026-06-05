@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/colors";
+﻿import { colors } from "@/constants/colors";
 import { Platform, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -9,19 +9,19 @@ export const styles = StyleSheet.create({
         paddingHorizontal: '10%',
         paddingVertical: 40,
         borderTopWidth: 1,
-        borderTopColor: Colors.border,
-        backgroundColor: Colors.surface,
+        borderTopColor: colors.border,
+        backgroundColor: colors.surface,
         gap: 20,
         
     },
     footerLogo: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 14,
         fontWeight: 'bold',
         letterSpacing: 2,
     },
     footerRights: {
-        color: Colors.text.tertiary,
+        color: colors.text.tertiary,
         fontSize: 12,
     },
     footerLinks: {
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
         gap: 24,
     },
     footerLink: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontSize: 12,
     },
 });

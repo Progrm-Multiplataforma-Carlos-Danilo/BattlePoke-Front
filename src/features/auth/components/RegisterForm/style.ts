@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/colors";
+﻿import { colors } from "@/constants/colors";
 import { Platform, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -116,7 +116,7 @@ export const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   primaryButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     height: 56,
     justifyContent: 'center',
     alignItems: 'center',
@@ -129,7 +129,7 @@ export const styles = StyleSheet.create({
     transform: [{ skewX: '-5deg' }],
   },
   primaryButtonText: {
-    color: Colors.text.primary,
+    color: colors.text.primary,
     fontSize: 18,
     fontWeight: '900',
     fontStyle: 'italic',
@@ -141,12 +141,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: Colors.secondary,
+    borderColor: colors.secondary,
     marginBottom: 40,
     transform: [{ skewX: '-5deg' }],
   },
   secondaryButtonText: {
-    color: Colors.secondary,
+    color: colors.secondary,
     fontSize: 14,
     fontWeight: '900',
     letterSpacing: 2,

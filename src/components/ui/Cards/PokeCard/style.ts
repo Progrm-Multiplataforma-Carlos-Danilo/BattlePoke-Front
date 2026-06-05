@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/colors';
+﻿import { colors } from '@/constants/colors';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -32,12 +32,12 @@ export const styles = StyleSheet.create({
     opacity: 0.5
   },
   card: {
-    backgroundColor: Colors.surface,
+    backgroundColor: colors.surface,
     borderRadius: 16,
     overflow: 'hidden',
     width: '100%',
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
   },
   imageContainer: {
     height: 150,
@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
   },
 
   typeText: {
-    color: Colors.text.primary,
+    color: colors.text.primary,
     fontSize: 10,
     fontWeight: 'bold',
   },
@@ -86,12 +86,12 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   name: {
-    color: Colors.text.primary,
+    color: colors.text.primary,
     fontSize: 16,
     fontWeight: 'bold',
   },
   number: {
-    color: Colors.text.secondary,
+    color: colors.text.secondary,
     fontSize: 14,
   },
   statRow: {
@@ -100,14 +100,14 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
   statLabel: {
-    color: Colors.text.secondary,
+    color: colors.text.secondary,
     fontSize: 12,
     width: 32,
   },
   statBarBg: {
     flex: 1,
     height: 4,
-    backgroundColor: Colors.surfaceHighlight,
+    backgroundColor: colors.surfaceHighlight,
     borderRadius: 2,
     marginLeft: 8,
   },

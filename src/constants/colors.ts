@@ -1,4 +1,5 @@
-export const Colors = {
+
+export const colors = {
   background: '#121214',
   surface: '#202024',
   surfaceHighlight: '#29292E',
@@ -37,3 +38,5 @@ export const Colors = {
     steel: '#86888a'
   }
 };
+
+export const Colors = colors;

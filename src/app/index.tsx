@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, Pressable, Image, Platform } from 'react-native';
-import { Colors } from '../constants/colors';
+import { colors } from '../constants/colors';
 import { Navbar } from '../components/layout/Landinpage/Navbar';
 import { HoverButton } from '../components/ui/Buttons/HoverButton';
 import { Footer } from '@/components/layout/Footer';
@@ -18,7 +17,7 @@ export default function LandingPage() {
                 >
                     <View style={styles.heroOverlay}>
                         <View style={styles.heroContent}>
-                            <Text style={styles.heroTitle}>DOMINE A ARENA <Text style={{ color: Colors.secondary }}>COMO MESTRE POKÉMON</Text></Text>
+                            <Text style={styles.heroTitle}>DOMINE A ARENA <Text style={{ color: colors.secondary }}>COMO MESTRE POKÉMON</Text></Text>
                             <Text style={styles.heroSubtitle}>
                                 Prepare sua estratégia, escolha seus pokémon e entre na arena para enfrentar os melhores treinadores do mundo.
                                 Sinta a adrenalina, domine cada movimento e alcance a glória eterna!
@@ -69,25 +68,25 @@ export default function LandingPage() {
                                         <Text style={styles.statLabel}>DIAS RESTANTES</Text>
                                     </View>
                                     <View style={styles.statBox}>
-                                        <Text style={[styles.statValue, { color: Colors.primary }]}>ELITE</Text>
+                                        <Text style={[styles.statValue, { color: colors.primary }]}>ELITE</Text>
                                         <Text style={styles.statLabel}>RANK ATUAL</Text>
                                     </View>
                                 </View>
                             </View>
 
                             <View style={styles.tournamentCards}>
-                                <View style={[styles.tournamentCard, { borderColor: Colors.secondary }]}>
+                                <View style={[styles.tournamentCard, { borderColor: colors.secondary }]}>
                                     <Text style={styles.tournamentIcon}>🏆</Text>
                                     <Text style={styles.tournamentName}>Copa Battle Poke</Text>
                                     <Text style={styles.tournamentPrize}>Prêmio: </Text>
                                 </View>
 
-                                <View style={[styles.tournamentCard, { borderColor: Colors.rankings.gold }]}>
+                                <View style={[styles.tournamentCard, { borderColor: colors.rankings.gold }]}>
                                     <Text style={styles.tournamentIcon}>👑</Text>
                                     <Text style={styles.tournamentName}>Global Finals</Text>
                                     <Text style={styles.tournamentPrize}>Prêmio: Leg. Mystery Box</Text>
                                 </View>
-                                <View style={[styles.tournamentCard, { borderColor: Colors.border, opacity: 0.5 }]}>
+                                <View style={[styles.tournamentCard, { borderColor: colors.border, opacity: 0.5 }]}>
                                     <Text style={[styles.tournamentName, { textAlign: 'center', marginTop: 10 }]}>EM BREVE...</Text>
                                 </View>
                             </View>
@@ -99,7 +98,7 @@ export default function LandingPage() {
                         <View style={styles.podium}>
 
                             <View style={[styles.podiumItem, { height: 200 }]}>
-                                <View style={[styles.avatarRing, { borderColor: Colors.rankings.silver }]}>
+                                <View style={[styles.avatarRing, { borderColor: colors.rankings.silver }]}>
                                     <View style={styles.avatarPlaceholder} />
                                 </View>
                                 <Text style={styles.podiumName}>C-pher01</Text>
@@ -111,7 +110,7 @@ export default function LandingPage() {
 
                             <View style={[styles.podiumItem, { height: 260 }]}>
                                 <Text style={styles.crown}>👑</Text>
-                                <View style={[styles.avatarRing, { borderColor: Colors.primary, width: 80, height: 80, borderRadius: 40 }]}>
+                                <View style={[styles.avatarRing, { borderColor: colors.primary, width: 80, height: 80, borderRadius: 40 }]}>
                                     <View style={styles.avatarPlaceholder} />
                                 </View>
                                 <Text style={styles.podiumName}>RedMaster</Text>
@@ -122,11 +121,11 @@ export default function LandingPage() {
                             </View>
 
                             <View style={[styles.podiumItem, { height: 180 }]}>
-                                <View style={[styles.avatarRing, { borderColor: Colors.rankings.bronze }]}>
+                                <View style={[styles.avatarRing, { borderColor: colors.rankings.bronze }]}>
                                     <View style={styles.avatarPlaceholder} />
                                 </View>
                                 <Text style={styles.podiumName}>NovaTactics</Text>
-                                <Text style={[styles.podiumPoints, { color: Colors.rankings.gold }]}>2.640 PT</Text>
+                                <Text style={[styles.podiumPoints, { color: colors.rankings.gold }]}>2.640 PT</Text>
                                 <View style={[styles.podiumBase, { backgroundColor: '#353520', height: 60 }]}>
                                     <Text style={styles.podiumRank}>3</Text>
                                 </View>
@@ -149,22 +148,22 @@ export default function LandingPage() {
 
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pokemonGrid}>
                             <LadinCard
-                                name="CHARIZARD" number="#006" type="FIRE" typeColor={Colors.types.fire}
+                                name="CHARIZARD" number="#006" type="FIRE" typeColor={colors.types.fire}
                                 image={require('../../assets/images/charizard.png')}
                                 atk={90} def={60} spd={80}
                             />
                              <LadinCard
-                                name="BLASTOISE" number="#009" type="WATER" typeColor={Colors.types.water}
+                                name="BLASTOISE" number="#009" type="WATER" typeColor={colors.types.water}
                                 image={require('../../assets/images/blastoise.png')}
                                 atk={70} def={95} spd={50}
                             />
                              <LadinCard
-                                name="PIKACHU" number="#025" type="ELECTRIC" typeColor={Colors.types.electric}
+                                name="PIKACHU" number="#025" type="ELECTRIC" typeColor={colors.types.electric}
                                 image={require('../../assets/images/pikachu.png')}
                                 atk={65} def={45} spd={95}
                             />
                              <LadinCard
-                                name="MEWTWO" number="#150" type="PSYCHIC" typeColor={Colors.types.psychic}
+                                name="MEWTWO" number="#150" type="PSYCHIC" typeColor={colors.types.psychic}
                                 image={require('../../assets/images/mewtwo.png')}
                                 atk={98} def={75} spd={90}
                             />
@@ -181,7 +180,7 @@ export default function LandingPage() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.background,
+        backgroundColor: colors.background,
     },
     scrollContent: {
         flexGrow: 1,
@@ -203,12 +202,12 @@ const styles = StyleSheet.create({
     heroTitle: {
         fontSize: 48,
         fontWeight: '900',
-        color: Colors.text.primary,
+        color: colors.text.primary,
         marginBottom: 16,
     },
     heroSubtitle: {
         fontSize: 16,
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         lineHeight: 24,
         marginBottom: 32,
     },
@@ -217,22 +216,22 @@ const styles = StyleSheet.create({
         gap: 16,
     },
     primaryButton: {
-        backgroundColor: Colors.primary,
+        backgroundColor: colors.primary,
         paddingHorizontal: 32,
         paddingVertical: 14,
         borderRadius: 8,
     },
     primaryButtonHovered: {
-        backgroundColor: Colors.primaryHover,
+        backgroundColor: colors.primaryHover,
         transform: [{ scale: 1.05 }],
     },
     primaryButtonText: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontWeight: 'bold',
     },
     secondaryButton: {
         borderWidth: 1,
-        borderColor: Colors.border,
+        borderColor: colors.border,
         paddingHorizontal: 32,
         paddingVertical: 14,
         borderRadius: 8,
@@ -243,7 +242,7 @@ const styles = StyleSheet.create({
         transform: [{ scale: 1.05 }],
     },
     secondaryButtonText: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontWeight: 'bold',
     },
     mainContent: {
@@ -256,13 +255,13 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: Colors.text.primary,
+        color: colors.text.primary,
         letterSpacing: 2,
         marginBottom: 16,
     },
     sectionSubtitle: {
         fontSize: 14,
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         lineHeight: 22,
         marginBottom: 32,
         maxWidth: 600,
@@ -280,23 +279,23 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     progressText: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontSize: 12,
         fontWeight: 'bold',
     },
     progressPercent: {
-        color: Colors.secondary,
+        color: colors.secondary,
         fontSize: 12,
         fontWeight: 'bold',
     },
     progressBarBg: {
         height: 8,
-        backgroundColor: Colors.surfaceHighlight,
+        backgroundColor: colors.surfaceHighlight,
         borderRadius: 4,
     },
     progressBarFill: {
         height: '100%',
-        backgroundColor: Colors.secondary,
+        backgroundColor: colors.secondary,
         borderRadius: 4,
     },
     statsRow: {
@@ -304,20 +303,20 @@ const styles = StyleSheet.create({
         gap: 16,
     },
     statBox: {
-        backgroundColor: Colors.surfaceHighlight,
+        backgroundColor: colors.surfaceHighlight,
         padding: 16,
         borderRadius: 8,
         flex: 1,
         alignItems: 'center',
     },
     statValue: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 4,
     },
     statLabel: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 10,
         fontWeight: 'bold',
         letterSpacing: 1,
@@ -331,7 +330,7 @@ const styles = StyleSheet.create({
     },
     tournamentCard: {
         width: Platform.OS === 'web' ? '45%' : '100%',
-        backgroundColor: Colors.surface,
+        backgroundColor: colors.surface,
         borderWidth: 1,
         borderRadius: 12,
         padding: 16,
@@ -341,13 +340,13 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     tournamentName: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontSize: 14,
         fontWeight: 'bold',
         marginBottom: 4,
     },
     tournamentPrize: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 12,
     },
     centerSection: {
@@ -380,17 +379,17 @@ const styles = StyleSheet.create({
     },
     avatarPlaceholder: {
         flex: 1,
-        backgroundColor: Colors.surfaceHighlight,
+        backgroundColor: colors.surfaceHighlight,
         borderRadius: 40,
     },
     podiumName: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontSize: 14,
         fontWeight: 'bold',
         marginBottom: 4,
     },
     podiumPoints: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 12,
         marginBottom: 16,
     },
@@ -403,7 +402,7 @@ const styles = StyleSheet.create({
         paddingTop: 16,
     },
     podiumRank: {
-        color: Colors.text.secondary,
+        color: colors.text.secondary,
         fontSize: 24,
         fontWeight: 'bold',
     },
@@ -413,7 +412,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     viewAllText: {
-        color: Colors.text.primary,
+        color: colors.text.primary,
         fontSize: 12,
         fontWeight: 'bold',
         letterSpacing: 1,

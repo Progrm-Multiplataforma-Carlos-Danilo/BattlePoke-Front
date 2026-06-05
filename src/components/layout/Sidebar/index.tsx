@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Platform, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
 import * as Animatable from 'react-native-animatable';
 
 import { styles } from './style';
-import { Colors } from '../../../constants/colors';
+import { colors } from '../../../constants/colors';
 
 export function Header() {
   const router = useRouter();
@@ -14,8 +14,8 @@ export function Header() {
 
   const navItems = [
     { name: 'Team', icon: 'account-group', path: '/Home' },
-    { name: 'Arena', icon: 'sword-cross', path: '/Arena' },
-    { name: 'Pokédex', icon: 'tablet-dashboard', path: '/Pokedex' },
+    { name: 'Arena', icon: 'sword-cross', path: '/Battle' },
+    { name: 'Pokedex', icon: 'tablet-dashboard', path: '/Pokedex' },
     { name: 'Profile', icon: 'account-outline', path: '/Profile' },
     
   ] as const;
@@ -34,7 +34,7 @@ export function Header() {
           <MaterialCommunityIcons 
             name={isOpen ? 'chevron-left' : 'chevron-right'} 
             size={30} 
-            color={Colors.text.secondary} 
+            color={colors.text.secondary} 
           />
         </TouchableOpacity>
       </View>
@@ -52,7 +52,7 @@ export function Header() {
                 <MaterialCommunityIcons 
                   name={item.icon} 
                   size={20} 
-                  color={isActive ? "#000" : Colors.text.secondary} 
+                  color={isActive ? "#000" : colors.text.secondary} 
                 />
               
                 {isOpen && (
@@ -69,14 +69,14 @@ export function Header() {
           {isOpen ? (
             <Text style={styles.OptionsButtonText}>Suporte</Text>
           ) : (
-            <MaterialCommunityIcons name="help-circle-outline" size={24} color={Colors.text.secondary} />
+            <MaterialCommunityIcons name="help-circle-outline" size={24} color={colors.text.secondary} />
           )}
         </TouchableOpacity>
         <TouchableOpacity style={[styles.OptionsButton, !isOpen && styles.navItemClose]} onPress={() => router.replace('/')}>
           {isOpen ? (
             <Text style={styles.OptionsButtonText}>Exit</Text>
           ) : (
-            <MaterialCommunityIcons name="logout" size={24} color={Colors.text.secondary} />
+            <MaterialCommunityIcons name="logout" size={24} color={colors.text.secondary} />
           )}
         </TouchableOpacity>
       </View>

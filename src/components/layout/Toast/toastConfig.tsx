@@ -1,12 +1,11 @@
-// src/toastConfig.js
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+
+import { View, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import styles from './style'
 
 interface ToastConfigProps {
-  text1: string;
-  text2: string;
+  text1?: string;
+  text2?: string;
   props: any;
   animationType?: string;
 }

@@ -1,7 +1,7 @@
-import React from 'react';
+﻿import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Image } from 'react-native';
 import { styles } from './style';
-import { Colors } from '../../../../constants/colors';
+import { colors } from '../../../../constants/colors';
 import { router } from 'expo-router';
 
 export function Navbar() {

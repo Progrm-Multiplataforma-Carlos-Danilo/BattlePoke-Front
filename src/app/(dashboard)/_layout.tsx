@@ -1,7 +1,7 @@
-import { View, Platform, StyleSheet, ActivityIndicator } from "react-native";
+﻿import { View, Platform, StyleSheet, ActivityIndicator } from "react-native";
 import { Slot, Redirect } from "expo-router";
 import { Header } from "@/components/layout/Sidebar";
-import { Colors } from "@/constants/colors";
+import { colors } from "@/constants/colors";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function DashboardLayout() {
@@ -10,7 +10,7 @@ export default function DashboardLayout() {
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={Colors.types.dark} />
+        <ActivityIndicator size="large" color={colors.types.dark} />
       </View>
     );
   }
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: Platform.OS === "web" ? "row" : "column",
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
   content: {
     flex: 1,

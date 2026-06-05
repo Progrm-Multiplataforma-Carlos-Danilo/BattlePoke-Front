@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { Colors } from "../../../../constants/colors";
+﻿import { StyleSheet } from "react-native";
+import { colors } from "../../../../constants/colors";
 
 export const styles = StyleSheet.create({
  container: {
@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 20,
     backgroundColor: 'rgba(18, 18, 20, 0.8)',
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.border,
     zIndex: 10,
   },
   logo: {
@@ -22,14 +22,14 @@ export const styles = StyleSheet.create({
     gap: 32,
   },
   navLink: {
-    color: Colors.text.secondary,
+    color: colors.text.secondary,
     fontSize: 14,
     fontWeight: '500',
   },
   activeLink: {
-    color: Colors.primary,
+    color: colors.primary,
     borderBottomWidth: 2,
-    borderBottomColor: Colors.primary,
+    borderBottomColor: colors.primary,
     paddingBottom: 4,
   },
   rightSection: {
@@ -41,13 +41,13 @@ export const styles = StyleSheet.create({
     padding: 8,
   },
   battleButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     paddingHorizontal: 24,
     paddingVertical: 10,
     borderRadius: 8,
   },
   battleButtonText: {
-    color: Colors.text.primary,
+    color: colors.text.primary,
     fontWeight: 'bold',
     fontSize: 14,
   },

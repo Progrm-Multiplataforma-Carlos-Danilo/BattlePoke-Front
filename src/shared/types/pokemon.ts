@@ -11,4 +11,20 @@ export interface Pokemon {
     image: string | ImageSourcePropType;
     type: string[];
     stats: Stats[];
+
+    height: number;
+    weight: number;
+    base_experience: number;
+
+    abilities: {
+        name: string;
+        isHidden: boolean;
+    }[];
+
+    description?: string;
+    category?: string;
+
+    evolutionChain?: string[];
+
+    weaknesses?: string[];
 }
