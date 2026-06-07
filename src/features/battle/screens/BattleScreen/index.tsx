@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, ScrollView, Pressable, Animated } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TeamPreview } from '../../components/TeamPreview';
 import { ModeSelector, BattleMode } from '../../components/ModeSelector';
@@ -12,16 +12,46 @@ export default function BattleScreen() {
   const { team } = useAuth();
   const [mode, setMode] = useState<BattleMode>('1v1');
   const [isLoading, setIsLoading] = useState(true);
+  const pulseAnimation = useRef(new Animated.Value(0)).current;
 
   const handleStart = () => {
     console.log('Iniciando batalha modo:', mode);
   };
 
   useEffect(() => {
+if(team){
+
+  Animated.loop(
+    Animated.sequence([
+      Animated.timing(pulseAnimation, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.timing(pulseAnimation, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+    ])
+  ).start();
+}
+
     setTimeout(() => {
       setIsLoading(false);
     }, 3000);
   }, []);
+
+
+    const scale = pulseAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, 1.05],
+    });
+
+    const opacity = pulseAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0.5, 1],
+    });
 
   if(isLoading){
     return (
@@ -77,6 +107,7 @@ export default function BattleScreen() {
 
 
       <View style={styles.bottomBar}>
+        <Animated.View style={{ transform: [{ scale }], opacity }}>
         <Pressable 
           style={({ pressed }) => [styles.startButton, pressed && styles.startButtonPressed]} 
           onPress={handleStart}
@@ -85,6 +116,7 @@ export default function BattleScreen() {
           <Text style={styles.startButtonText}>INICIAR COMBATE</Text>
           <MaterialCommunityIcons name="lightning-bolt" size={24} color={colors.background} />
         </Pressable>
+        </Animated.View>
       </View>
     </View>
   );
