@@ -1,36 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import { styles } from './styles';
 
-type BattleMode = '1v1' | '5v5';
+export type BattleMode = '1v1' | '5v5';
 
 interface ModeSelectorProps {
-  onStart: (mode: BattleMode) => void;
+  mode: BattleMode;
+  onChange: (mode: BattleMode) => void;
 }
 
-export function ModeSelector({ onStart }: ModeSelectorProps) {
-  const [mode, setMode] = useState<BattleMode>('1v1');
-
+export function ModeSelector({ mode, onChange }: ModeSelectorProps) {
   return (
     <View style={styles.container}>
-      <Pressable
-        style={({ pressed }) => [styles.startButton, pressed && styles.startButtonPressed]}
-        onPress={() => onStart(mode)}
-      >
-        <View style={styles.pulse} />
-        <Text style={styles.startButtonText}>Iniciar Combate</Text>
-      </Pressable>
-
       <View style={styles.modesRow}>
         <Pressable
           style={[styles.modeBtn, mode === '1v1' && styles.modeBtnActive]}
-          onPress={() => setMode('1v1')}
+          onPress={() => onChange('1v1')}
         >
           <MaterialIcons
             name="person"
-            size={28}
+            size={24}
             color={mode === '1v1' ? colors.primary : colors.text.secondary}
           />
           <Text style={[styles.modeBtnText, mode === '1v1' && styles.modeBtnTextActive]}>
@@ -40,11 +31,11 @@ export function ModeSelector({ onStart }: ModeSelectorProps) {
 
         <Pressable
           style={[styles.modeBtn, mode === '5v5' && styles.modeBtnActive]}
-          onPress={() => setMode('5v5')}
+          onPress={() => onChange('5v5')}
         >
           <MaterialIcons
             name="group"
-            size={28}
+            size={24}
             color={mode === '5v5' ? colors.primary : colors.text.secondary}
           />
           <Text style={[styles.modeBtnText, mode === '5v5' && styles.modeBtnTextActive]}>

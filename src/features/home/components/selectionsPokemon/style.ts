@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: colors.border,
+        borderColor: colors.types.fire,
+        
     },
     header: {
         flexDirection: 'row',
@@ -117,6 +118,6 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     readyButtonTextActive: {
-        color: colors.background,
+        color: colors.text.primary,
     },
 });

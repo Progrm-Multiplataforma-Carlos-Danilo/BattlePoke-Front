@@ -5,10 +5,26 @@ import { BattleRecord } from '../../components/BattleRecord';
 import { QuickActions } from '../../components/QuickActions';
 import { BadgesGrid } from '../../components/BadgesGrid';
 import { styles } from './styles';
+import Loading from '@/components/layout/Loading';
+import { useEffect, useState } from 'react';
 
 export default function ProfileScreen() {
   const { width } = useWindowDimensions();
   const isWide = width >= 768;
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+
+  if(loading){
+    return (
+      <Loading />
+    )
+  } 
 
   return (
     <View style={styles.root}>

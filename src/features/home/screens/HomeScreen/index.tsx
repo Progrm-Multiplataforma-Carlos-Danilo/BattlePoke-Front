@@ -22,8 +22,10 @@ export default function HomeScreen() {
     async function loadData() {
       try {
         const data = await getPokemon(151);
-        setPokemonList(data);
         console.log(data);
+        const pokemonRamdom = data.sort(() => Math.random() - 0.5).slice(0, 5);
+        setPokemonList(pokemonRamdom);
+        
       } catch (e) {
         console.error("Error fetching Pokemon:", e);
       } finally {

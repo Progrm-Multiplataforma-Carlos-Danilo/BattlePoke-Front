@@ -4,42 +4,7 @@ import { fonts } from '@/constants/fonts';
 
 export const styles = StyleSheet.create({
   container: {
-    gap: 12,
-    alignItems: 'center',
     width: '100%',
-  },
-  startButton: {
-    width: '100%',
-    paddingVertical: 28,
-    backgroundColor: colors.secondary,
-    borderWidth: 4,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: colors.border,
-    shadowOffset: { width: 8, height: 8 },
-    shadowOpacity: 0.5,
-    shadowRadius: 0,
-    elevation: 8,
-  },
-  startButtonPressed: {
-    shadowOffset: { width: 2, height: 2 },
-    transform: [{ translateX: 4 }, { translateY: 4 }],
-  },
-  startButtonText: {
-    fontFamily: fonts.headline,
-    fontSize: 28,
-    letterSpacing: 2,
-    color: colors.background,
-    textTransform: 'uppercase',
-  },
-  pulse: {
-    position: 'absolute',
-    top: -6,
-    right: -6,
-    width: 16,
-    height: 16,
-    backgroundColor: colors.primary,
   },
   modesRow: {
     flexDirection: 'row',

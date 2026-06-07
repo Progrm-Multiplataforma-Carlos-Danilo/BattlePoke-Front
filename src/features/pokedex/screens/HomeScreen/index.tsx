@@ -6,6 +6,7 @@ import { styles } from './style';
 import { PokemonCard } from '@/components/ui/Cards/PokeCard/PokemonCard';
 import { PokemonDetailsModal } from '../../components/PokemonDetailsModal';
 import { SearchFilter } from '../../components/SearchFilter';
+import Loading from '@/components/layout/Loading';
 
 export default function PokedexScreen() {
     const [loading, setLoading] = useState(true);
@@ -28,6 +29,7 @@ export default function PokedexScreen() {
         }
         loadData();
     }, []);
+    
 
     const filteredList = useMemo(() => {
         return pokemonList.filter((p) => {
@@ -46,6 +48,13 @@ export default function PokedexScreen() {
         setIsModalVisible(false);
         setSelectedPokemon(null);
     };
+
+
+    if(loading){
+        return (
+            <Loading />
+        )
+    }
 
     return (
         <View style={styles.container}>

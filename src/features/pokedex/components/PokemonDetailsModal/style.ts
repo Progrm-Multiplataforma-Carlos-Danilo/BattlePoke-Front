@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     },
     modalContainer: {
         width: '100%',
-        maxWidth: 400,
+        maxWidth: 800,
         backgroundColor: colors.surface,
         borderRadius: 20,
         borderWidth: 1,

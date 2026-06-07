@@ -1,5 +1,5 @@
-﻿import React from "react";
-import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { Image, ImageSourcePropType, Text, TouchableOpacity, View, Animated } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from "./style";
 import { colors } from "@/constants/colors";
@@ -20,6 +20,44 @@ export default function SelectionPokemon({ selectedPokemons = [], onSlotPress, o
 
     const isTeamFull = selectedPokemons.length === maxSlots;
 
+    const pulseAnimation = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        if (isTeamFull) {
+            Animated.loop(
+                Animated.sequence([
+                    Animated.timing(pulseAnimation, {
+                        toValue: 1,
+                        duration: 800,
+                        useNativeDriver: true,
+                    }),
+                    Animated.timing(pulseAnimation, {
+                        toValue: 0,
+                        duration: 800,
+                        useNativeDriver: true,
+                    }),
+                ])
+            ).start();
+        } else {
+            pulseAnimation.setValue(0);
+        }
+    }, [isTeamFull]);
+
+
+    const scale = pulseAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, 1.05],
+    });
+
+    const opacity = pulseAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0.5, 1],
+    });
+
+    const rotate = pulseAnimation.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: ['0deg', '2deg', '-2deg'],
+    });
 
     return (
         <View style={styles.container}>
@@ -34,7 +72,7 @@ export default function SelectionPokemon({ selectedPokemons = [], onSlotPress, o
             <View style={styles.slotsContainer}>
                 {slots.map((pokemon, index) => {
                     const slotNumber = String(index + 1).padStart(2, '0');
-                    
+
                     return (
                         <TouchableOpacity
                             key={index}
@@ -45,10 +83,10 @@ export default function SelectionPokemon({ selectedPokemons = [], onSlotPress, o
                             <View style={styles.slotLeft}>
                                 <View style={styles.addIconContainer}>
                                     {pokemon ? (
-                                        <Image 
-                                            source={typeof pokemon.image === 'string' && pokemon.image.startsWith('http') ? { uri: pokemon.image } : pokemon.image as ImageSourcePropType} 
-                                            style={styles.pokemonImage} 
-                                            resizeMode="contain" 
+                                        <Image
+                                            source={typeof pokemon.image === 'string' && pokemon.image.startsWith('http') ? { uri: pokemon.image } : pokemon.image as ImageSourcePropType}
+                                            style={styles.pokemonImage}
+                                            resizeMode="contain"
                                         />
                                     ) : (
                                         <MaterialCommunityIcons name="plus-circle-outline" size={24} color={colors.text.secondary} />
@@ -75,17 +113,18 @@ export default function SelectionPokemon({ selectedPokemons = [], onSlotPress, o
                     );
                 })}
             </View>
-
-            <TouchableOpacity
-                style={[styles.readyButton, isTeamFull && styles.readyButtonActive]}
-                activeOpacity={0.8}
-                disabled={!isTeamFull}
-                onPress={onReadyPress}
-            >
-                <Text style={[styles.readyButtonText, isTeamFull && styles.readyButtonTextActive]}>
-                    ComeÃ§ar batalha
-                </Text>
-            </TouchableOpacity>
+            <Animated.View style={{ transform: [{ scale }, { rotate }], opacity }}>
+                <TouchableOpacity
+                    style={[styles.readyButton, isTeamFull && styles.readyButtonActive]}
+                    activeOpacity={0.8}
+                    disabled={!isTeamFull}
+                    onPress={onReadyPress}
+                >
+                    <Text style={[styles.readyButtonText, isTeamFull && styles.readyButtonTextActive]}>
+                        Começar batalha
+                    </Text>
+                </TouchableOpacity>
+            </Animated.View>
         </View>
     );
 }

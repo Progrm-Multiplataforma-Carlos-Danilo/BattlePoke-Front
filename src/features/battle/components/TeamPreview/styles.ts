@@ -26,11 +26,11 @@ export const styles = StyleSheet.create({
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: 12,
+    justifyContent: 'space-between',
   },
   slot: {
-    flex: 1,
-    minWidth: 140,
+    width: '48%',
     backgroundColor: colors.surface,
     borderWidth: 2,
     borderColor: colors.border,
@@ -40,8 +40,7 @@ export const styles = StyleSheet.create({
     gap: 10,
   },
   emptySlot: {
-    flex: 1,
-    minWidth: 140,
+    width: '48%',
     height: 72,
     borderWidth: 2,
     borderColor: colors.border,

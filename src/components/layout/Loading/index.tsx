@@ -1,30 +1,56 @@
 import React, { useEffect, useRef } from 'react';
+import LottieView from 'lottie-react-native';
 import { View, Animated, Easing, Image, Dimensions } from 'react-native';
-
-const { width } = Dimensions.get('window');
+import { styles } from './style';
 
 export default function Loading() {
-  const moveAnim = useRef(new Animated.Value(-100)).current; 
+
+  ;
+  const progressAnim = useRef(new Animated.Value(0)).current; //COMEÇA EM 0
 
   useEffect(() => {
     Animated.loop(
-      Animated.timing(moveAnim, {
-        toValue: width + 100, 
-        duration: 2000,      
+      Animated.timing(progressAnim, {
+        toValue: 1, //vai de 0 a 100
+        duration: 8000,      
         easing: Easing.linear,
-        useNativeDriver: true,
+        useNativeDriver: false,
       })
     ).start();
-  }, [moveAnim]);
+  }, []);
+
+  //Onde o bulbassauro esta na tela
+  const MoveBulbasaur = progressAnim.interpolate({
+    inputRange: [0, 1], //Vai de 0 a 1
+    outputRange: [-200,  200], //Vai de 0 a 500
+  })  
+  const fillBarLoading = progressAnim.interpolate({
+    inputRange: [0, 1], //Vai de 0 a 1
+    outputRange: ['0%', '100%'], //Vai de 0 a 100
+  })  
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', backgroundColor: '#f0f0f0' }}>
-      <Animated.View style={{ transform: [{ translateX: moveAnim }] }}>
-        <Image 
-          source={{ uri: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png' }} 
-          style={{ width: 150, height: 150 }}
+    <View style={styles.container}>
+
+      <Animated.View style={{ transform: [{ translateX: MoveBulbasaur }] }}>
+        <LottieView
+          source={require('../../../../assets/images/Bulbassaur.json')} 
+          style={styles.image}
+          autoPlay
+          loop
         />
-      </Animated.View>
+         </Animated.View>
+
+
+        <View style={styles.barLoading}>
+        <Animated.View 
+          style={[
+            styles.barLoadingFill, 
+            { width: fillBarLoading } // A largura é controlada pela interpolação
+          ]} 
+        />
+      </View>
+     
     </View>
   );
 }
