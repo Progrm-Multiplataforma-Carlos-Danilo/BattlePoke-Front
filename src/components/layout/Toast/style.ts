@@ -1,37 +1,90 @@
 import { colors } from '@/constants/colors';
+import { fonts } from '@/constants/fonts';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  sucessoToast: {
-    height: 60,
-    width: '100%',
-    backgroundColor: 'green',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sucessoText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  sucessoSubText: {
-    color: 'white',
-    fontSize: 14,
-  },
-  errorToast: {
-    height: 60,
-    width: '100%',
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  errorSubText: {
-    color: 'white',
-    fontSize: 14,
-  },
+
+
+
+    sucessheaderContainerToast: {
+      flexDirection: 'row',
+      backgroundColor: colors.surfaceHighlight,
+      borderBottomWidth: 1,
+      borderColor: colors.border,
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      width:'40%',
+      start:'30%'
+    },
+    sucessheaderIndicatorToast: {
+      width: 7,
+      backgroundColor: colors.types.grass,
+      marginRight: 16,
+      transform: [{ skewX: '-10deg' }],
+    },
+    sucessheaderContentToast: {
+      flex: 1,
+      gap: 4,
+    },
+    sucesstitleRowToast: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+    },
+    sucessheaderTitleToast: {
+      fontFamily: fonts.headline,
+      fontSize: 24,
+      color: colors.types.grass,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      fontStyle: 'italic',
+    },
+    sucessheaderSubtitleToast: {
+      fontFamily: fonts.body,
+      fontSize: 16,
+      color: colors.text.secondary,
+    },
+
+
+
+    headerContainerToast: {
+      flexDirection: 'row',
+      backgroundColor: colors.surfaceHighlight,
+      borderBottomWidth: 1,
+      borderColor: colors.border,
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      width:'40%',
+      start:'30%'
+    },
+    headerIndicatorToast: {
+      width: 7,
+      backgroundColor: colors.primary,
+      marginRight: 16,
+      transform: [{ skewX: '-10deg' }],
+    },
+    headerContentToast: {
+      flex: 1,
+      gap: 4,
+    },
+    titleRowToast: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+    },
+    headerTitleToast: {
+      fontFamily: fonts.headline,
+      fontSize: 24,
+      color: colors.primary,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      fontStyle: 'italic',
+    },
+    headerSubtitleToast: {
+      fontFamily: fonts.body,
+      fontSize: 16,
+      color: colors.text.secondary,
+    },
 
 
   errorToastLogin: {

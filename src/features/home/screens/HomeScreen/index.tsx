@@ -1,8 +1,8 @@
 import { View } from "react-native";
-import { getPokemon } from "@sharedApi/pokemonIntegration";
 import { Pokemon } from "@sharedTypes/pokemon";
 import { useEffect, useState } from "react";
 import { styles } from "./style";
+import { getRandomPokemons } from "@/utils/pokemonCache";
 import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import SelectionPokemon from "../../components/selectionsPokemon";
 import Toast from "react-native-toast-message";
@@ -21,11 +21,8 @@ export default function HomeScreen() {
   useEffect(() => {
     async function loadData() {
       try {
-        const data = await getPokemon(151);
-        console.log(data);
-        const pokemonRamdom = data.sort(() => Math.random() - 0.5).slice(0, 5);
-        setPokemonList(pokemonRamdom);
-        
+        const randomPokemons = await getRandomPokemons();
+        setPokemonList(randomPokemons);
       } catch (e) {
         console.error("Error fetching Pokemon:", e);
       } finally {
