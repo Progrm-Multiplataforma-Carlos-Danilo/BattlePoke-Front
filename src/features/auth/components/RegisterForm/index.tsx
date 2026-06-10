@@ -26,7 +26,8 @@ export function RegisterForm() {
             ),
         defaultValues: {
             email: '',
-            senha: ''
+            senha: '',
+            confirmarSenha: ''
         }
 
     });
@@ -92,6 +93,32 @@ export function RegisterForm() {
                             )}
                         />
                         {errors.senha && <Text style={{ color: "red" }}>{errors.senha.message}</Text>}
+                    </View>
+
+                     <View style={styles.inputGroup}>
+                        <Text style={styles.inputLabel}>Confirmar senha</Text>
+                        <Controller
+                            control={control}
+                            name="confirmarSenha"
+                            render={({ field: {
+                                onChange,
+                                onBlur,
+                                value
+                            } }) => (
+                                <View style={[styles.inputWrapper, errors.confirmarSenha && { borderColor: "red", borderWidth: 2 }]}>
+                                    <TextInput
+                                        style={[styles.input]}
+                                        placeholder="••••••••"
+                                        placeholderTextColor="#4A5568"
+                                        secureTextEntry
+                                        value={value}
+                                        onChangeText={onChange}
+                                        onBlur={onBlur}
+                                    />
+                                </View>
+                            )}
+                        />
+                        {errors.confirmarSenha && <Text style={{ color: "red" }}>{errors.confirmarSenha.message}</Text>}
                     </View>
 
 
