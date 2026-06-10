@@ -1,8 +1,8 @@
-import { View } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Pokemon } from "@sharedTypes/pokemon";
 import { useEffect, useState } from "react";
 import { styles } from "./style";
-import { getRandomPokemons } from "@/utils/pokemonCache";
+import { getCachedPokemons, captureRandomPokemons } from "@/utils/pokemonCache";
 import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import SelectionPokemon from "../../components/selectionsPokemon";
 import Toast from "react-native-toast-message";
@@ -21,8 +21,10 @@ export default function HomeScreen() {
   useEffect(() => {
     async function loadData() {
       try {
-        const randomPokemons = await getRandomPokemons();
-        setPokemonList(randomPokemons);
+        const cachedPokemons = await getCachedPokemons();
+        if (cachedPokemons) {
+          setPokemonList(cachedPokemons);
+        }
       } catch (e) {
         console.error("Error fetching Pokemon:", e);
       } finally {
@@ -31,6 +33,18 @@ export default function HomeScreen() {
     }
     loadData();
   }, []);
+
+  const handleCaptureRandom = async () => {
+    setLoading(true);
+    try {
+      const newPokemons = await captureRandomPokemons();
+      setPokemonList(newPokemons);
+    } catch(e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <Loading />;
@@ -72,11 +86,21 @@ export default function HomeScreen() {
       <View style={styles.container}>
         <View style={styles.content}>
           <View style={styles.listContainer}>
-            <PokemonCard
-              pokemonList={pokemonList}
-              columns={3}
-              onPokemonPress={handleSelectPokemon}
-            />
+            {pokemonList.length > 0 ? (
+              <PokemonCard
+                pokemonList={pokemonList}
+                columns={3}
+                onPokemonPress={handleSelectPokemon}
+              />
+            ) : (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyTitle}>Nenhum Pokémon Capturado</Text>
+                <Text style={styles.emptySubtitle}>Explore o mundo para encontrar novos aliados!</Text>
+                <TouchableOpacity style={styles.captureButton} onPress={handleCaptureRandom} activeOpacity={0.8}>
+                  <Text style={styles.captureButtonText}>Capturar 5 Pokémons</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
           <View style={styles.sidebarContainer}>
             <SelectionPokemon

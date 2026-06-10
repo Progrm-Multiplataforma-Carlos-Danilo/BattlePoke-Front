@@ -4,7 +4,7 @@ import { Pokemon } from "@sharedTypes/pokemon";
 
 const POKEMON_CACHE_KEY = '@Pokemon:randomList';
 
-export async function getRandomPokemons(): Promise<Pokemon[]> {
+export async function getCachedPokemons(): Promise<Pokemon[] | null> {
   try {
     const cachedList = await AsyncStorage.getItem(POKEMON_CACHE_KEY);
     if (cachedList) {
@@ -13,7 +13,10 @@ export async function getRandomPokemons(): Promise<Pokemon[]> {
   } catch (e) {
     console.error("Error reading from AsyncStorage:", e);
   }
+  return null;
+}
 
+export async function captureRandomPokemons(): Promise<Pokemon[]> {
   const data = await getPokemon(151);
   const pokemonRandom = data.sort(() => Math.random() - 0.5).slice(0, 5);
 
