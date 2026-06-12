@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
-//Só validação de email e senha
+// Login por nome de treinador (username) + senha — sem validação de e-mail.
 export const loginSchema = yup.object({
-   email: yup.string().email("Email invalido").required("Email obrigatorio"),
+   email: yup.string().required("Usuario obrigatorio"),
    senha: yup.string().required("Senha obrigatoria"),
 });

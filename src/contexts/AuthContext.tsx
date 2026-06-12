@@ -1,33 +1,18 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Pokemon } from '@sharedTypes/pokemon';
-
-interface AuthContextData {
-  isAuthenticated: boolean;
-  user: string | null;
-  isLoading: boolean;
-  displayName: string;
-  avatar: string | null;
-  team: Pokemon[];
-  signIn: (username: string, password: string) => boolean;
-  signOut: () => void;
-  updateDisplayName: (name: string) => void;
-  updateAvatar: (uri: string) => void;
-  updateTeam: (team: Pokemon[]) => void;
-}
-
-const DEFAULT_AVATAR =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuC6VDR_VTUVuA_0LONCjN23Vw3DDKOhyk3TyZKNt4c5jHf7FBo6uFpuSpDfMpQ7aISoIp6G6IGW9DB1AjUq7Sis2lZLCiS7IeTQzyuEyKB2lhKy-C3jAvWYr-dB2WhiVGr1mJ67YsMtuD1ISz4cI9hHJi7Xoe6I0Cfi5m5CaiTtmfyIuekxnGR3_-Z8n8qCs_KlLBYzWatXuhSYXEkwYdldekqyzqRDCQwRR8Ugm_M_m0iO4_oj0dP1GH3fpWwYBbI0q8CHUjBuVwxz';
-
-function validateLogin(name: string, password: string): boolean {
-  return name.trim().toLowerCase() === 'admin@gmail.com' && password.trim() === '123456';
-}
+import { LoginDTO } from '@/features/auth/@types/LoginDTO';
+import { login as loginRequest } from '@/features/auth/integration/authIntegration';
+import { getToken, getUserId, clearSession } from '@sharedApi/storage';
+import {DEFAULT_AVATAR} from '@/constants/global'; 
+import { AuthContextData} from '@/features/auth/@types/AuthContextData';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [displayName, setDisplayName] = useState('TRAINER');
   const [avatar, setAvatar] = useState<string | null>(null);
@@ -35,14 +20,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     async function loadStorageData() {
-      const [storedUser, storedName, storedAvatar, storedTeam] = await Promise.all([
-        AsyncStorage.getItem('@Auth:user'),
-        AsyncStorage.getItem('@Auth:displayName'),
-        AsyncStorage.getItem('@Auth:avatar'),
-        AsyncStorage.getItem('@Auth:team'),
-      ]);
-      if (storedUser) {
+      const [storedUser, storedName, storedAvatar, storedTeam, storedToken, storedUserId] =
+        await Promise.all([
+          AsyncStorage.getItem('@Auth:user'),
+          AsyncStorage.getItem('@Auth:displayName'),
+          AsyncStorage.getItem('@Auth:avatar'),
+          AsyncStorage.getItem('@Auth:team'),
+          getToken(),
+          getUserId(),
+        ]);
+      // Sessão válida só com token persistido (backend real).
+      if (storedUser && storedToken) {
         setUser(storedUser);
+        setUserId(storedUserId);
         setIsAuthenticated(true);
       }
       if (storedName) setDisplayName(storedName);
@@ -53,26 +43,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loadStorageData();
   }, []);
 
-  function signIn(username: string, password: string): boolean {
-    const ok = validateLogin(username, password);
-    if (!ok) return false;
+  async function signIn(username: string, password: string): Promise<boolean> {
+    const credentials: LoginDTO = { email: username.trim(), senha: password };
+    const auth = await loginRequest(credentials);
+
     const name = username.trim();
     setUser(name);
+    setUserId(auth.userId);
     setIsAuthenticated(true);
-    AsyncStorage.setItem('@Auth:user', name);
+    await AsyncStorage.setItem('@Auth:user', name);
     return true;
   }
 
   function signOut() {
     setUser(null);
+    setUserId(null);
     setIsAuthenticated(false);
     setTeam([]);
     AsyncStorage.multiRemove(['@Auth:user', '@Auth:team']);
+    clearSession();
   }
 
-  function updateDisplayName(name: string) {
+  async function updateDisplayName(name: string) {
+    // Apenas estado + persistência local. O PUT no backend é feito pelo
+    // TrainerCard, que tem os stats atuais para enviar no mesmo request
+    // (o endpoint /stats exige level/vitorias/derrotas, não aceita só o nome).
     setDisplayName(name);
-    AsyncStorage.setItem('@Auth:displayName', name);
+    await AsyncStorage.setItem('@Auth:displayName', name);
   }
 
   function updateAvatar(uri: string) {
@@ -87,7 +84,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{
-      isAuthenticated, user, isLoading,
+      isAuthenticated, user, userId, isLoading,
       displayName, avatar: avatar ?? DEFAULT_AVATAR, team,
       signIn, signOut, updateDisplayName, updateAvatar, updateTeam,
     }}>

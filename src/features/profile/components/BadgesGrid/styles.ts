@@ -57,4 +57,13 @@ export const styles = StyleSheet.create({
     letterSpacing: 1,
     color: colors.text.primary,
   },
+  badgeLevel: {
+    fontFamily: fonts.bodyBold,
+    fontSize: 9,
+    letterSpacing: 1,
+    color: colors.text.secondary,
+  },
+  badgeLocked: {
+    opacity: 0.55,
+  },
 });

@@ -7,24 +7,47 @@ import { BadgesGrid } from '../../components/BadgesGrid';
 import { styles } from './styles';
 import Loading from '@/components/layout/Loading';
 import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { getProfile } from '../../integration/profileIntegration';
+import { Profile } from '../../@types/Profile';
 
 export default function ProfileScreen() {
   const { width } = useWindowDimensions();
   const isWide = width >= 768;
+  const { userId } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+    let active = true;
 
-  if(loading){
+    async function loadProfile() {
+      if (!userId) {
+        setLoading(false);
+        return;
+      }
+      try {
+        const data = await getProfile(userId);
+        if (active) setProfile(data);
+        console.log("Meu perfil: " + profile?.username)
+      } catch (err) {
+        console.error('Erro ao carregar perfil:', err);
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+
+    loadProfile();
+    return () => {
+      active = false;
+    };
+  }, [userId]);
+
+  if (loading) {
     return (
       <Loading />
     )
-  } 
+  }
 
   return (
     <View style={styles.root}>
@@ -34,21 +57,21 @@ export default function ProfileScreen() {
           <>
             <View style={styles.row}>
               <View style={styles.mainCol}>
-                <TrainerCard />
+                <TrainerCard profile={profile} />
               </View>
               <View style={styles.sideCol}>
-                <BattleRecord />
+                <BattleRecord profile={profile} />
                 <QuickActions />
               </View>
             </View>
-            <BadgesGrid />
+            <BadgesGrid level={profile?.level ?? 0} />
           </>
         ) : (
           <>
-            <TrainerCard />
-            <BattleRecord />
+            <TrainerCard profile={profile} />
+            <BattleRecord profile={profile} />
             <QuickActions />
-            <BadgesGrid />
+            <BadgesGrid level={profile?.level ?? 0} />
           </>
         )}
       </ScrollView>

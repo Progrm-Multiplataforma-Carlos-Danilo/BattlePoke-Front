@@ -65,13 +65,6 @@ export function Header() {
       )}
 
       <View style={styles.DownSection}>
-        <TouchableOpacity style={[styles.OptionsButton, !isOpen && styles.navItemClose]}>
-          {isOpen ? (
-            <Text style={styles.OptionsButtonText}>Suporte</Text>
-          ) : (
-            <MaterialCommunityIcons name="help-circle-outline" size={24} color={colors.text.secondary} />
-          )}
-        </TouchableOpacity>
         <TouchableOpacity style={[styles.OptionsButton, !isOpen && styles.navItemClose]} onPress={() => router.replace('/')}>
           {isOpen ? (
             <Text style={styles.OptionsButtonText}>Exit</Text>
