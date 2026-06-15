@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { PixelBorderDouble } from '@/components/ui/PixelBorderDouble';
 import { colors } from '@/constants/colors';
 import { styles } from './styles';
-import { Profile } from '../../@types/Profile';
+import { Profile } from '../../../../shared/types/Profile';
 
 function StatRow({
   label,

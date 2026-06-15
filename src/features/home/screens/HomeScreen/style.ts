@@ -7,12 +7,29 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.background,
         padding: 12,
     },
+    header: {
+        alignItems:'flex-end',
+        marginBottom: 12,
+        marginRight:20,
+    },
     content: {
         flex: 1,
         flexDirection: 'row',
         gap: 12,
         paddingLeft:5,
         paddingRight:4
+    },
+    text:{
+        fontSize: 18,
+        color: colors.text.primary,
+        fontWeight: 'bold',
+        marginBottom: 12,
+    },
+    username:{
+        fontSize: 18,
+        color: colors.primary,
+        fontWeight: 'bold',
+        marginBottom: 12,
     },
     listContainer: {
         flex: 3, 

@@ -24,7 +24,8 @@ export default function Loading() {
     inputRange: [0, 1], //Vai de 0 a 1
     outputRange: [-200,  200], //Vai de 0 a 500
   })  
-  const fillBarLoading = progressAnim.interpolate({
+  const fillBarLoading = progressAnim
+  .interpolate({
     inputRange: [0, 1], //Vai de 0 a 1
     outputRange: ['0%', '100%'], //Vai de 0 a 100
   })  

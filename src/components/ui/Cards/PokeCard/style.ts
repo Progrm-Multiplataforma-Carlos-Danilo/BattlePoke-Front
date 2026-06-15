@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: 'hidden',
     width: '100%',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.border,
   },
   imageContainer: {
@@ -115,4 +115,11 @@ export const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 2,
   },
+
+  activeStat: {
+    borderColor:colors.types.water,
+    borderWidth: 2,
+    borderRadius: 7,
+    padding: 4
+  }
 })

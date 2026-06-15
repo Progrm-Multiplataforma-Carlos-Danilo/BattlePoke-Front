@@ -9,7 +9,7 @@ import Loading from '@/components/layout/Loading';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getProfile } from '../../integration/profileIntegration';
-import { Profile } from '../../@types/Profile';
+import { Profile } from '../../../../shared/types/Profile';
 
 export default function ProfileScreen() {
   const { width } = useWindowDimensions();

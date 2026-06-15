@@ -1,5 +1,5 @@
 import { httpClient } from '@sharedApi/httpClient';
-import { Profile } from '../@types/Profile';
+import { Profile } from '../../../shared/types/Profile';
 
 export async function getProfile(userId: string): Promise<Profile> {
   const response = await httpClient.get(`/auth/v1/stats/${userId}`);

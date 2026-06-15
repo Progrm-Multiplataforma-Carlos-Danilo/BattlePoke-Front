@@ -7,15 +7,16 @@ import { useAuth } from '@/contexts/AuthContext';
 import { colors } from '@/constants/colors';
 import { styles } from './styles';
 import Loading from '@/components/layout/Loading';
+import { router } from 'expo-router';
 
 export default function BattleScreen() {
   const { team } = useAuth();
-  const [mode, setMode] = useState<BattleMode>('1v1');
+  //const [mode, setMode] = useState<BattleMode>('1v1');
   const [isLoading, setIsLoading] = useState(true);
   const pulseAnimation = useRef(new Animated.Value(0)).current;
 
   const handleStart = () => {
-    console.log('Iniciando batalha modo:', mode);
+    router.push('/Fight');
   };
 
   useEffect(() => {
@@ -100,7 +101,8 @@ if(team){
               </View>
             </View>
 
-            <ModeSelector mode={mode} onChange={setMode} />
+            {/*<ModeSelector mode={mode} onChange={setMode} />*/}
+            
           </View>
         </View>
       </ScrollView>

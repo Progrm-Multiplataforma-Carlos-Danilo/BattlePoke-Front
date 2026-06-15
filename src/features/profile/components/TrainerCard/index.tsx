@@ -8,7 +8,7 @@ import { styles } from './styles';
 import { DataField } from '../DataField';
 import { EditModal } from '../EditModal';
 import { XpBar } from '../XpBar';
-import { Profile } from '../../@types/Profile';
+import { Profile } from '../../../../shared/types/Profile';
 import { updateProfile } from '../../integration/profileIntegration';
 
 export function TrainerCard({ profile }: { profile?: Profile | null }) {
@@ -87,7 +87,7 @@ export function TrainerCard({ profile }: { profile?: Profile | null }) {
               <DataField title="LEVEL" value={String(profile?.level ?? '--')} valueColor={colors.secondary} />
             </View>
             <View style={styles.fieldCol}>
-              <DataField title="WINS" value={String(profile?.vitorias ?? 2 )} valueColor={colors.secondary} />
+              <DataField title="WINS" value={String(profile?.vitorias ?? 2)} valueColor={colors.secondary} />
               <DataField title="LOSSES" value={String(profile?.derrotas ?? 0)} />
             </View>
           </View>
