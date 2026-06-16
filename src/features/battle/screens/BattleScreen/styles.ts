@@ -63,11 +63,11 @@ export const styles = StyleSheet.create({
   powerRatingBox: {
     backgroundColor: colors.surfaceHighlight,
     borderWidth: 2,
-    borderColor: colors.rankings.gold,
+    borderColor: colors.secondary,
     padding: 16,
     position: 'relative',
     overflow: 'hidden',
-    shadowColor: colors.rankings.gold,
+    shadowColor: colors.secondary,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.6,
     shadowRadius: 10,
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
   powerRatingTitle: {
     fontFamily: fonts.bodyBold,
     fontSize: 12,
-    color: colors.rankings.gold,
+    color: colors.secondary,
     letterSpacing: 2,
     marginBottom: 4,
   },

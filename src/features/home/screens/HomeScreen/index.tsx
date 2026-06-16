@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Pokemon } from "@sharedTypes/pokemon";
 import { useEffect, useState } from "react";
 import { styles } from "./style";
@@ -15,10 +15,10 @@ import { Profile } from "@/shared/types/Profile";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { userId,team: savedTeam, updateTeam } = useAuth();
+  const { userId, team: savedTeam, updateTeam } = useAuth();
   const [loading, setLoading] = useState(true);
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-  const [profile, setProfile] = useState<Profile|null>();
+  const [profile, setProfile] = useState<Profile | null>();
   const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>(savedTeam);
 
   useEffect(() => {
@@ -26,13 +26,13 @@ export default function HomeScreen() {
     let active = true;
 
     async function loadData() {
-      if(!userId){
+      if (!userId) {
         setLoading(false)
         return;
       }
       try {
         const data = await getProfile(userId);
-        if(active)setProfile(data);
+        if (active) setProfile(data);
         const cachedPokemons = await getCachedPokemons();
         if (cachedPokemons) {
           setPokemonList(cachedPokemons);
@@ -51,7 +51,7 @@ export default function HomeScreen() {
     try {
       const newPokemons = await captureRandomPokemons();
       setPokemonList(newPokemons);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
@@ -96,26 +96,41 @@ export default function HomeScreen() {
     <>
       <View style={styles.container}>
         <View style={styles.header}>
-        <Text style={styles.text}>Seja bem vindo <Text style={styles.username}>{profile?.username}</Text></Text>
+          <Text style={styles.text}>Seja bem vindo <Text style={styles.username}>{profile?.username}</Text></Text>
 
         </View>
         <View style={styles.content}>
           <View style={styles.listContainer}>
-            {pokemonList.length > 0 ? (
+            {pokemonList.length >= 5 ? (
               <PokemonCard
                 pokemonList={pokemonList}
                 columns={3}
                 onPokemonPress={handleSelectPokemon}
               />
+            ) : pokemonList.length < 5 ? (
+              <>
+                <ScrollView style={styles.scroll}>
+                  <PokemonCard
+                    pokemonList={pokemonList}
+                    columns={3}
+                    onPokemonPress={handleSelectPokemon} />
+                  <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyTitle}>Pokémons para Capturar</Text>
+                    <Text style={styles.emptySubtitle}>Capture mais Pokémons para formar seu time</Text>
+                    <TouchableOpacity style={styles.captureButton} onPress={handleCaptureRandom} activeOpacity={0.8}>
+                      <Text style={styles.captureButtonText}>Capturar 5 Pokémons</Text>
+                    </TouchableOpacity>
+                  </View>
+                </ScrollView></>
             ) : (
+
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyTitle}>Nenhum Pokémon Capturado</Text>
                 <Text style={styles.emptySubtitle}>Explore o mundo para encontrar novos aliados!</Text>
                 <TouchableOpacity style={styles.captureButton} onPress={handleCaptureRandom} activeOpacity={0.8}>
                   <Text style={styles.captureButtonText}>Capturar 5 Pokémons</Text>
                 </TouchableOpacity>
-              </View>
-            )}
+              </View>)}
           </View>
           <View style={styles.sidebarContainer}>
             <SelectionPokemon

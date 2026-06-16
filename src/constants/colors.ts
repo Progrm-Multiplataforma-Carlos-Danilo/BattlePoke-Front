@@ -5,6 +5,7 @@ export const colors = {
   surfaceHighlight: '#29292E',
   primary: '#FF4D4D',
   primaryHover: '#E63939',
+  terceira: '#ff0000ff',
   secondary: '#00D2FF',
   text: {
     primary: '#FFFFFF',

@@ -67,9 +67,9 @@ export function Header() {
       <View style={styles.DownSection}>
         <TouchableOpacity style={[styles.OptionsButton, !isOpen && styles.navItemClose]} onPress={() => router.replace('/')}>
           {isOpen ? (
-            <Text style={styles.OptionsButtonText}>Exit</Text>
+            <Text style={styles.OptionsButtonText}><MaterialCommunityIcons name="logout" size={24} color={colors.terceira} /><Text style={styles.TextExit}>Sair</Text></Text>
           ) : (
-            <MaterialCommunityIcons name="logout" size={24} color={colors.text.secondary} />
+            <MaterialCommunityIcons name="logout" size={24} color={colors.terceira} />
           )}
         </TouchableOpacity>
       </View>

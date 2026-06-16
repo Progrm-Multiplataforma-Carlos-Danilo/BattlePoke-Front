@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import Toast from 'react-native-toast-message';
 import { Pokemon } from '@/shared/types/pokemon';
+import { captureRandomPokemons } from '@/utils/pokemonCache';
 
 const STASTS_ORDER = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'];
 
@@ -9,20 +10,17 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
     const [activeOpponentIndex, setActiveOpponentIndex] = useState(0);
     const [activeStatIndex, setActiveStatIndex] = useState(0);
     const [activeOpponentStatIndex, setActiveOpponentStatIndex] = useState(0);
+    const [pokemonListNew, setPokemonListNew] = useState<Pokemon[]>([]);
 
     const [playerWins, setPlayerWins] = useState(0);
     const [opponentWins, setOpponentWins] = useState(0);
     const [isBattling, setIsBattling] = useState(false);
 
-    const pIndexRef = useRef(activePlayerIndex);
-    pIndexRef.current = activePlayerIndex;
-    const oIndexRef = useRef(activeOpponentIndex);
-    oIndexRef.current = activeOpponentIndex;
+    const playerIndexRef = useRef(activePlayerIndex);  playerIndexRef.current = activePlayerIndex;
+    const opponentIndexRef = useRef(activeOpponentIndex);  opponentIndexRef.current = activeOpponentIndex;
 
-    const pWinsRef = useRef(playerWins);
-    pWinsRef.current = playerWins;
-    const oWinsRef = useRef(opponentWins);
-    oWinsRef.current = opponentWins;
+    const playerWinsRef = useRef(playerWins);  playerWinsRef.current = playerWins;
+    const opponentWinsRef = useRef(opponentWins); opponentWinsRef.current = opponentWins;
 
     const handleBattle = () => {
         if (isBattling || pokemonList.length === 0) return;
@@ -44,106 +42,108 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
             if (rollCount >= 15) {
                 clearInterval(interval);
                 
-                const finalPStatIdx = Math.floor(Math.random() * STASTS_ORDER.length);
-                const finalOStatIdx = Math.floor(Math.random() * STASTS_ORDER.length);
+                const finalPlayerStatIdx = Math.floor(Math.random() * STASTS_ORDER.length);
+                const finalOpponentStatIdx = Math.floor(Math.random() * STASTS_ORDER.length);
                 
-                setActiveStatIndex(finalPStatIdx);
-                setActiveOpponentStatIndex(finalOStatIdx);
+                setActiveStatIndex(finalPlayerStatIdx);
+                setActiveOpponentStatIndex(finalOpponentStatIdx);
 
                 setTimeout(() => {
-                    resolveRound(finalPStatIdx, finalOStatIdx);
-                }, 800);
+                    calculationRound(finalPlayerStatIdx, finalOpponentStatIdx);
+                }, 1000);
             }
-        }, 100);
+        }, 200);
     };
 
-    const resolveRound = (pStatIdx: number, oStatIdx: number) => {
-        const currentPIndex = pIndexRef.current;
-        const currentOIndex = oIndexRef.current;
+    const calculationRound = (playerStatIdx: number, opponentStatIdx: number) => {
+        const currentPlayerIndex = playerIndexRef.current;
+        const currentOpponentIndex = opponentIndexRef.current;
 
-        const pPoke = pokemonList[currentPIndex];
-        const oPoke = opponentTeam[currentOIndex];
+        const playerPokemon = pokemonList[currentPlayerIndex];
+        const opponentPokemon = opponentTeam[currentOpponentIndex];
 
-        const pStatName = STASTS_ORDER[pStatIdx];
-        const oStatName = STASTS_ORDER[oStatIdx];
+        const playerStatName = STASTS_ORDER[playerStatIdx];
+        const opponentStatName = STASTS_ORDER[opponentStatIdx];
 
-        const pVal = pPoke.stats.find(s => s.name === pStatName)?.forca || 0;
-        const oVal = oPoke.stats.find(s => s.name === oStatName)?.forca || 0;
+        const playerVal = playerPokemon.stats.find(stats => stats.name === playerStatName)?.forca || 0;
+        const opponentVal = opponentPokemon.stats.find(stats => stats.name === opponentStatName)?.forca || 0;
 
-        let newPWins = pWinsRef.current;
-        let newOWins = oWinsRef.current;
+        let newPlayerWins = playerWinsRef.current;
+        let newOpponentWins = opponentWinsRef.current;
 
-        if (pVal > oVal) {
-            newPWins++;
-            setPlayerWins(newPWins);
+        if (playerVal > opponentVal) {
+            newPlayerWins++;
+            setPlayerWins(newPlayerWins);
             Toast.show({
                 type: 'success',
                 text1: `Vitória no Round!`,
-                text2: `${pPoke.name} (${pStatName.toUpperCase()}: ${pVal}) venceu ${oPoke.name} (${oStatName.toUpperCase()}: ${oVal})`,
-                position: 'bottom'
+                text2: `${playerPokemon.name} (${playerStatName.toUpperCase()}: ${playerVal}) venceu ${opponentPokemon.name} (${opponentStatName.toUpperCase()}: ${opponentVal})`,
+                position: 'top'
             });
-        } else if (oVal > pVal) {
-            newOWins++;
-            setOpponentWins(newOWins);
+             
+        } else if (opponentVal > playerVal) {
+            newOpponentWins++;
+            setOpponentWins(newOpponentWins);
             Toast.show({
                 type: 'error',
                 text1: `Derrota no Round!`,
-                text2: `${oPoke.name} (${oStatName.toUpperCase()}: ${oVal}) venceu ${pPoke.name} (${pStatName.toUpperCase()}: ${pVal})`,
-                position: 'bottom'
+                text2: `${opponentPokemon.name} (${opponentStatName.toUpperCase()}: ${opponentVal}) venceu ${playerPokemon.name} (${playerStatName.toUpperCase()}: ${playerVal})`,
+                position: 'top'
             });
         } else {
             Toast.show({
-                type: 'success', // Aproveitando o tema de success para avisos amigaveis
+                type: 'success', 
                 text1: `Empate no Round!`,
-                text2: `Ambos tiraram ${pVal} em seus respectivos status.`,
-                position: 'bottom'
+                text2: `Ambos tiraram ${playerVal} em seus respectivos status.`,
+                position: 'top'
             });
         }
 
-        // Aguarda 2 segundos para o usuário ver o resultado (borda focada, placar e toast)
-        setTimeout(() => {
-            if (newPWins >= 3) {
+        // Toasts de fim de batalha
+        setTimeout(async () => {
+            if (newPlayerWins >= 3) {
                 Toast.show({
                     type: 'success',
                     text1: '🏆 VITÓRIA NA BATALHA 🏆',
-                    text2: 'Você atingiu 3 vitórias primeiro! Clique em Batalhar para reiniciar.',
-                    position: 'bottom',
+                    text2: 'Você atingiu 3 vitórias primeiro!',
+                    position: 'top',
+                    visibilityTime: 6000
+                });
+                
+                 const newPokemons = await captureRandomPokemons();
+                 Toast.show({
+                    type: 'success',
+                    text1: `Você capturou 1 pokemons! ${newPokemons[newPokemons.length - 1].name}`,
+                    text2: `Volte para a home para conhecer ele!`,
+                    position: 'top',
                     visibilityTime: 4000
                 });
+                  setPokemonListNew(newPokemons);
                 setIsBattling(false);
-            } else if (newOWins >= 3) {
+            } else if (newOpponentWins >= 3) {
                 Toast.show({
                     type: 'error',
                     text1: '💀 DERROTA NA BATALHA 💀',
                     text2: 'O Oponente atingiu 3 vitórias primeiro! Clique em Batalhar para reiniciar.',
-                    position: 'bottom',
+                    position: 'top',
                     visibilityTime: 4000
                 });
                 setIsBattling(false);
             } else {
-                // Batalha continua, avança os pokemons
-                setActivePlayerIndex((currentPIndex + 1) % pokemonList.length);
-                setActiveOpponentIndex((currentOIndex + 1) % opponentTeam.length);
+                // Batalha irá continuar e avançar para o proximo pokemon
+                setActivePlayerIndex((currentPlayerIndex + 1) % pokemonList.length);
+                setActiveOpponentIndex((currentOpponentIndex + 1) % opponentTeam.length);
                 setIsBattling(false);
             }
         }, 2200);
     };
 
-    const resetBattle = () => {
-        setPlayerWins(0);
-        setOpponentWins(0);
-        setActivePlayerIndex(0);
-        setActiveOpponentIndex(0);
-        setActiveStatIndex(0);
-        setActiveOpponentStatIndex(0);
-        setIsBattling(false);
+    const resetBattle = () => { setPlayerWins(0); setOpponentWins(0); setActivePlayerIndex(0); setActiveOpponentIndex(0); setActiveStatIndex(0); setActiveOpponentStatIndex(0); setIsBattling(false);
     };
 
     return {
-        activePlayerIndex,
-        setActivePlayerIndex,
-        activeOpponentIndex,
-        setActiveOpponentIndex,
+        activePlayerIndex, setActivePlayerIndex,
+        activeOpponentIndex,setActiveOpponentIndex,
         activeStatIndex,
         activeOpponentStatIndex,
         playerWins,

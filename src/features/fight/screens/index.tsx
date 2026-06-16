@@ -18,18 +18,12 @@ export default function FightScreen() {
     const pulseAnimation = useRef(new Animated.Value(0)).current;
 
     const {
-        activePlayerIndex,
-        setActivePlayerIndex,
-        activeOpponentIndex,
-        setActiveOpponentIndex,
-        activeStatIndex,
-        activeOpponentStatIndex,
-        playerWins,
-        opponentWins,
-        isBattling,
-        handleBattle,
-        STASTS_ORDER
-    } = useBattleSimulation(pokemonList, mockOpponentTeam);
+        activePlayerIndex, setActivePlayerIndex,
+        activeOpponentIndex,setActiveOpponentIndex,
+        activeStatIndex, activeOpponentStatIndex,
+        playerWins, opponentWins,
+        isBattling, handleBattle,
+        STASTS_ORDER } = useBattleSimulation(pokemonList, mockOpponentTeam);
 
     const activePlayer = pokemonList.length > 0 ? pokemonList[activePlayerIndex] : null;
     const activeOpponent = mockOpponentTeam[activeOpponentIndex];
@@ -73,13 +67,13 @@ export default function FightScreen() {
                         <View style={styles.teamHub}>
                             <Text style={styles.teamHubLabel}>Meu Time ({playerWins})</Text>
                             <View style={styles.teamThumbsRow}>
-                                {pokemonList.map((p, i) => (
+                                {pokemonList.map((pokemon, index) => (
                                     <TeamThumb
-                                        key={p.id}
-                                        pokemon={p}
-                                        isActive={i === activePlayerIndex}
+                                        key={pokemon.id}
+                                        pokemon={pokemon}
+                                        isActive={index === activePlayerIndex}
                                         isOpponent={false}
-                                        onPress={() => setActivePlayerIndex(i)}
+                                        onPress={() => setActivePlayerIndex(index)}
                                     />
                                 ))}
                             </View>
@@ -93,13 +87,13 @@ export default function FightScreen() {
                         <View style={styles.teamHub}>
                             <Text style={[styles.teamHubLabel, styles.teamHubLabelOpponent]}>Oponente ({opponentWins})</Text>
                             <View style={styles.teamThumbsRow}>
-                                {mockOpponentTeam.map((p, i) => (
+                                {mockOpponentTeam.map((pokemon, index) => (
                                     <TeamThumb
-                                        key={p.id}
-                                        pokemon={p}
-                                        isActive={i === activeOpponentIndex}
+                                        key={pokemon.id}
+                                        pokemon={pokemon}
+                                        isActive={index === activeOpponentIndex}
                                         isOpponent={true}
-                                        onPress={() => setActiveOpponentIndex(i)}
+                                        onPress={() => setActiveOpponentIndex(index)}
                                     />
                                 ))}
                             </View>
@@ -117,7 +111,7 @@ export default function FightScreen() {
                                     activeStatName={STASTS_ORDER[activeStatIndex]}
                                     columns={1}
                                     cardWidth="100%"
-                                    borderColor={colors.types.water}
+                                    borderColor={colors.secondary}
                                     imageBackgroundColor={`${colors.types.flying}15`}
                                 />
                             ) : (
@@ -137,7 +131,7 @@ export default function FightScreen() {
                                     activeStatName={STASTS_ORDER[activeOpponentStatIndex]}
                                     columns={1}
                                     cardWidth="100%"
-                                    borderColor="#FF4D4D"
+                                    borderColor={colors.terceira}
                                     imageBackgroundColor="#FF4D4D15"
                                 />
                             )}

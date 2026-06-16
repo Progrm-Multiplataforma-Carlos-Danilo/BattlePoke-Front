@@ -17,7 +17,6 @@ export const styles = StyleSheet.create({
         flexDirection: 'column',
     },
 
-    // ===== TEAM HUBS =====
     teamHubContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -43,23 +42,21 @@ export const styles = StyleSheet.create({
         color: colors.primary,
     },
 
-    // ===== VS DIVIDER =====
     vsDivider: {
         paddingHorizontal: 16,
         paddingVertical: 4,
         borderRadius: 6,
         borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderColor: colors.secondary,
         backgroundColor: 'rgba(255, 255, 255, 0.04)',
     },
     vsText: {
-        color: colors.text.tertiary,
+        color: colors.secondary,
         fontSize: 14,
         fontWeight: 'bold',
         letterSpacing: 4,
     },
 
-    // ===== TEAM THUMBS =====
     teamThumbsRow: {
         flexDirection: 'row',
         gap: 6,

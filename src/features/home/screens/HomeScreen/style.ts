@@ -74,4 +74,7 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase',
     },
+    scroll:{
+   flexGrow:1
+    },
 })
