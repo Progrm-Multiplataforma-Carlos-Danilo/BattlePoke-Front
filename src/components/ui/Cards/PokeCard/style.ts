@@ -120,5 +120,13 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 7,
     padding: 4
-  }
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    backgroundColor: 'rgba(200, 30, 30, 0.75)',
+    borderRadius: 6,
+    padding: 4,
+  },
 })

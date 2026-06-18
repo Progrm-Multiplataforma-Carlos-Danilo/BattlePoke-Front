@@ -16,6 +16,21 @@ export async function getCachedPokemons(): Promise<Pokemon[] | null> {
   return null;
 }
 
+export async function removeCachedPokemon(pokemonId: number): Promise<void> {
+  try {
+    const cached = await AsyncStorage.getItem(POKEMON_CACHE_KEY);
+    if (cached) {
+      const list = JSON.parse(cached) as Pokemon[];
+      await AsyncStorage.setItem(
+        POKEMON_CACHE_KEY,
+        JSON.stringify(list.filter((p) => p.id !== pokemonId))
+      );
+    }
+  } catch (e) {
+    console.error("Error removing from AsyncStorage:", e);
+  }
+}
+
 export async function captureRandomPokemons(): Promise<Pokemon[]> {
   const data = await getPokemon(151);
   const pokemonRandom = data.sort(() => Math.random() - 0.5).slice(0, 1);

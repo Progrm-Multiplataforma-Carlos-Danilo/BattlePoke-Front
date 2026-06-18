@@ -2,7 +2,8 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Pokemon } from "@sharedTypes/pokemon";
 import { useEffect, useState } from "react";
 import { styles } from "./style";
-import { getCachedPokemons, captureRandomPokemons } from "@/utils/pokemonCache";
+import { getCachedPokemons, captureRandomPokemons, removeCachedPokemon } from "@/utils/pokemonCache";
+import { addCaptured, removeCaptured } from "@/features/home/integration/teamIntegration";
 import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import SelectionPokemon from "../../components/selectionsPokemon";
 import Toast from "react-native-toast-message";
@@ -49,12 +50,30 @@ export default function HomeScreen() {
   const handleCaptureRandom = async () => {
     setLoading(true);
     try {
+      const prevIds = new Set(pokemonList.map((p) => p.id));
       const newPokemons = await captureRandomPokemons();
       setPokemonList(newPokemons);
+      if (userId) {
+        const justCaptured = newPokemons.filter((p) => !prevIds.has(p.id));
+        await Promise.all(justCaptured.map((p) => addCaptured(userId, p.id)));
+      }
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeletePokemon = async (pokemon: Pokemon) => {
+    setSelectedPokemons((prev) => prev.filter((p) => p.id !== pokemon.id));
+    setPokemonList((prev) => prev.filter((p) => p.id !== pokemon.id));
+    try {
+      await removeCachedPokemon(pokemon.id);
+      if (userId) await removeCaptured(userId, pokemon.id);
+      Toast.show({ type: 'success', text1: 'Pokémon liberado', text2: `${pokemon.name} foi removido da bolsa.` });
+    } catch (e) {
+      console.error(e);
+      Toast.show({ type: 'error', text1: 'Erro', text2: 'Não foi possível remover o pokémon.' });
     }
   };
 
@@ -106,6 +125,7 @@ export default function HomeScreen() {
                 pokemonList={pokemonList}
                 columns={3}
                 onPokemonPress={handleSelectPokemon}
+                onDeletePress={handleDeletePokemon}
               />
             ) : pokemonList.length < 5 ? (
               <>
@@ -113,7 +133,8 @@ export default function HomeScreen() {
                   <PokemonCard
                     pokemonList={pokemonList}
                     columns={3}
-                    onPokemonPress={handleSelectPokemon} />
+                    onPokemonPress={handleSelectPokemon}
+                    onDeletePress={handleDeletePokemon} />
                   <View style={styles.emptyContainer}>
                     <Text style={styles.emptyTitle}>Pokémons para Capturar</Text>
                     <Text style={styles.emptySubtitle}>Capture mais Pokémons para formar seu time</Text>

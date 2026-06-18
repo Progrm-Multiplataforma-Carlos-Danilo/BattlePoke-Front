@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ImageSourcePropType, FlatList, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../../../../constants/colors';
 import { styles } from './style';
 import { typeColors } from '@/utils/pokemonUtils';
@@ -10,6 +11,7 @@ interface PokemonCardProps {
   pokemonList?: Pokemon[];
   columns?: number;
   onPokemonPress?: (pokemon: Pokemon) => void;
+  onDeletePress?: (pokemon: Pokemon) => void;
   cardWidth?: number | string;
   cardMaxHeight?: number | string;
   imageHeight?: number | string;
@@ -33,7 +35,7 @@ const PokemonTypeBackground = ({ type, color }: { type: string; color: string; }
   )
 }
 
-export function PokemonCard({ pokemonList, columns = 3, onPokemonPress, cardWidth, hideStats, imageBackgroundColor, borderColor, activeStatName }: PokemonCardProps) {
+export function PokemonCard({ pokemonList, columns = 3, onPokemonPress, onDeletePress, cardWidth, hideStats, imageBackgroundColor, borderColor, activeStatName }: PokemonCardProps) {
   const StatBar = ({ label, apiName, value, color }: { label: string, apiName: string, value?: number, color: string }) => {
     const isActive = apiName === activeStatName;
     return (
@@ -82,7 +84,15 @@ export function PokemonCard({ pokemonList, columns = 3, onPokemonPress, cardWidt
                     <PokemonType key={index} type={type} color={typeColors[type] || colors.types.normal} />
                   ))}
                 </View>
-
+                {onDeletePress && (
+                  <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={() => onDeletePress(item)}
+                    activeOpacity={0.7}
+                  >
+                    <MaterialCommunityIcons name="trash-can-outline" size={16} color="#fff" />
+                  </TouchableOpacity>
+                )}
               </View>
               <View style={styles.info}>
                 <View style={[styles.header, hideStats && { marginBottom: 0 }]}>
