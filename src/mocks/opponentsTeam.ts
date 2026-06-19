@@ -30,7 +30,7 @@ export const mockOpponentTeam: Pokemon[] = [
         name: "Pikachu",
         image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
         type: ["electric"],
-        stats: [{ name: "attack", forca: 55 }, { name: "defense", forca: 40 }, { name: "speed", forca: 90 }, { name: "hp", forca: 80 }, { name: "special-attack", forca: 80 }, { name: "special-defense", forca: 80 }],
+        stats: [{ name: "attack", forca: 30 }, { name: "defense", forca: 20 }, { name: "speed", forca: 20 }, { name: "hp", forca: 20 }, { name: "special-attack", forca:20 }, { name: "special-defense", forca: 20 }],
         height: 4, weight: 60, base_experience: 112, abilities: [],
     },
     {

@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import Toast from 'react-native-toast-message';
 import { Pokemon } from '@/shared/types/pokemon';
 import { captureRandomPokemons } from '@/utils/pokemonCache';
+import { router } from 'expo-router';
 
 const STASTS_ORDER = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'];
 
@@ -16,15 +17,15 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
     const [opponentWins, setOpponentWins] = useState(0);
     const [isBattling, setIsBattling] = useState(false);
 
-    const playerIndexRef = useRef(activePlayerIndex);  playerIndexRef.current = activePlayerIndex;
-    const opponentIndexRef = useRef(activeOpponentIndex);  opponentIndexRef.current = activeOpponentIndex;
+    const playerIndexRef = useRef(activePlayerIndex); playerIndexRef.current = activePlayerIndex;
+    const opponentIndexRef = useRef(activeOpponentIndex); opponentIndexRef.current = activeOpponentIndex;
 
-    const playerWinsRef = useRef(playerWins);  playerWinsRef.current = playerWins;
+    const playerWinsRef = useRef(playerWins); playerWinsRef.current = playerWins;
     const opponentWinsRef = useRef(opponentWins); opponentWinsRef.current = opponentWins;
 
     const handleBattle = () => {
         if (isBattling || pokemonList.length === 0) return;
-        
+
         // Se a partida já acabou e o usuário clicar de novo, nós reiniciamos
         if (playerWins >= 3 || opponentWins >= 3) {
             resetBattle();
@@ -33,7 +34,7 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
 
         setIsBattling(true);
         let rollCount = 0;
-        
+
         const interval = setInterval(() => {
             setActiveStatIndex(Math.floor(Math.random() * STASTS_ORDER.length));
             setActiveOpponentStatIndex(Math.floor(Math.random() * STASTS_ORDER.length));
@@ -41,10 +42,10 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
 
             if (rollCount >= 15) {
                 clearInterval(interval);
-                
+
                 const finalPlayerStatIdx = Math.floor(Math.random() * STASTS_ORDER.length);
                 const finalOpponentStatIdx = Math.floor(Math.random() * STASTS_ORDER.length);
-                
+
                 setActiveStatIndex(finalPlayerStatIdx);
                 setActiveOpponentStatIndex(finalOpponentStatIdx);
 
@@ -80,7 +81,7 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
                 text2: `${playerPokemon.name} (${playerStatName.toUpperCase()}: ${playerVal}) venceu ${opponentPokemon.name} (${opponentStatName.toUpperCase()}: ${opponentVal})`,
                 position: 'top'
             });
-             
+
         } else if (opponentVal > playerVal) {
             newOpponentWins++;
             setOpponentWins(newOpponentWins);
@@ -92,7 +93,7 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
             });
         } else {
             Toast.show({
-                type: 'success', 
+                type: 'success',
                 text1: `Empate no Round!`,
                 text2: `Ambos tiraram ${playerVal} em seus respectivos status.`,
                 position: 'top'
@@ -109,16 +110,25 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
                     position: 'top',
                     visibilityTime: 6000
                 });
-                
-                 const newPokemons = await captureRandomPokemons();
-                 Toast.show({
-                    type: 'success',
-                    text1: `Você capturou 1 pokemons! ${newPokemons[newPokemons.length - 1].name}`,
-                    text2: `Volte para a home para conhecer ele!`,
-                    position: 'top',
-                    visibilityTime: 4000
+
+                const newPokemons = await captureRandomPokemons();
+                // Toast.show({
+                //    type: 'success',
+                //    text1: `Você capturou 1 pokemons! ${newPokemons[newPokemons.length - 1].name}`,
+                //    text2: `Volte para a home para conhecer ele!`,
+                //    position: 'top',
+                //    visibilityTime: 4000
+                //});
+                const pokemonCapturado = newPokemons[newPokemons.length - 1];
+                // Ao invés de push('/Victory'), enviamos um objeto com os params
+                router.replace({
+                    pathname: '/Victory',
+                    params: {
+                        pokemonData: JSON.stringify(pokemonCapturado),
+                    }
                 });
-                  setPokemonListNew(newPokemons);
+
+                setPokemonListNew(newPokemons);
                 setIsBattling(false);
             } else if (newOpponentWins >= 3) {
                 Toast.show({
@@ -138,12 +148,13 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
         }, 2200);
     };
 
-    const resetBattle = () => { setPlayerWins(0); setOpponentWins(0); setActivePlayerIndex(0); setActiveOpponentIndex(0); setActiveStatIndex(0); setActiveOpponentStatIndex(0); setIsBattling(false);
+    const resetBattle = () => {
+        setPlayerWins(0); setOpponentWins(0); setActivePlayerIndex(0); setActiveOpponentIndex(0); setActiveStatIndex(0); setActiveOpponentStatIndex(0); setIsBattling(false);
     };
 
     return {
         activePlayerIndex, setActivePlayerIndex,
-        activeOpponentIndex,setActiveOpponentIndex,
+        activeOpponentIndex, setActiveOpponentIndex,
         activeStatIndex,
         activeOpponentStatIndex,
         playerWins,
