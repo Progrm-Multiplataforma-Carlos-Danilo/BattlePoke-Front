@@ -4,7 +4,7 @@ import { TrainerCard } from '../../components/TrainerCard';
 import { BattleRecord } from '../../components/BattleRecord';
 import { QuickActions } from '../../components/QuickActions';
 import { BadgesGrid } from '../../components/BadgesGrid';
-import { styles } from './styles';
+import { styles } from './style';
 import Loading from '@/components/layout/Loading';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';

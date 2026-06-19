@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import {styles} from './styles';
+import {styles} from './style';
 
 export function DataField({ title, value, valueColor }: { title: string; value: string; valueColor?: string }) {
   return (

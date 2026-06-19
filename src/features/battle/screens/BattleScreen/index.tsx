@@ -5,7 +5,7 @@ import { TeamPreview } from '../../components/TeamPreview';
 import { ModeSelector, BattleMode } from '../../components/ModeSelector';
 import { useAuth } from '@/contexts/AuthContext';
 import { colors } from '@/constants/colors';
-import { styles } from './styles';
+import { styles } from './style';
 import Loading from '@/components/layout/Loading';
 import { router } from 'expo-router';
 

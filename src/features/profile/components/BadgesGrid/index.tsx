@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { PixelBorderDouble } from '@/components/ui/PixelBorderDouble';
 import { BADGES } from '../../constants/badges';
 import { colors } from '@/constants/colors';
-import { styles } from './styles';
+import { styles } from './style';
 
 const LEVELS_PER_BADGE = 10;
 

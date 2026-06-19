@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { PixelBorderDouble } from '@/components/ui/PixelBorderDouble';
 import { colors } from '@/constants/colors';
-import { styles } from './styles';
+import { styles } from './style';
 import { Profile } from '../../../../shared/types/Profile';
 
 function StatRow({

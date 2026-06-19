@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
-import { styles } from './styles';
+import { styles } from './style';
 
 export type BattleMode = '1v1' | '5v5';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
-import { styles } from './styles';
+import { styles } from './style';
 
 function QuickAction({ label }: { label: string }) {
   return (

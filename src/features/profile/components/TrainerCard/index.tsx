@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { PixelBorderDouble } from '@/components/ui/PixelBorderDouble';
 import { colors } from '@/constants/colors';
 import { useAuth } from '@/contexts/AuthContext';
-import { styles } from './styles';
+import { styles } from './style';
 import { DataField } from '../DataField';
 import { EditModal } from '../EditModal';
 import { XpBar } from '../XpBar';

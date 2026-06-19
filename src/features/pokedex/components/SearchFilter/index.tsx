@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Modal, ScrollView, Pressable } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
-import { styles } from './styles';
+import { styles } from './style';
 
 const TYPES = [
   'fire', 'water', 'electric', 'grass', 'psychic',

@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pokemon } from '@sharedTypes/pokemon';
 import { colors } from '@/constants/colors';
-import { styles } from './styles';
+import { styles } from './style';
 
 interface TeamPreviewProps {
   team: Pokemon[];

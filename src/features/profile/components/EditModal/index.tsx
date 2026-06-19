@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import {Modal, Pressable, Text, TextInput, View, TouchableOpacity} from 'react-native';
-import {editStyles} from './styles';
+import {editStyles} from './style';
 import {colors} from '@/constants/colors';
 
 export function EditModal({
