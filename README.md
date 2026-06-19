@@ -322,9 +322,7 @@ Use os aliases em vez de caminhos relativos longos:
 | `@/*` | `src/*` |
 | `@sharedTypes/*` | `src/shared/types/*` |
 | `@sharedApi/*` | `src/shared/api/*` |
-| `@homeTypes/*` | `src/features/home/@types/*` |
 | `@homeIntegrations/*` | `src/features/home/integration/*` |
-| `@pokedexTypes/*` | `src/features/pokedex/@types/*` |
 | `@pokedexIntegrations/*` | `src/features/pokedex/integration/*` |
 
 ```ts
