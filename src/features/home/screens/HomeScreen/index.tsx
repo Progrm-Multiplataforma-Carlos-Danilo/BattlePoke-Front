@@ -7,7 +7,7 @@ import { addCaptured, removeCaptured, saveTeam, getCaptured, getTeamData } from 
 import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import SelectionPokemon from "../../components/selectionsPokemon";
 import Toast from "react-native-toast-message";
-import { Navbar } from "@/components/layout/Landinpage/Navbar";
+import { Navbar } from "@/components/layout/LandingPage/Navbar";
 import Loading from "@/components/layout/Loading";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";

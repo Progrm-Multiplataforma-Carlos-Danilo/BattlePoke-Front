@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, Pressable, Image, Platform } from 'react-native';
 import { colors } from '../constants/colors';
-import { Navbar } from '../components/layout/Landinpage/Navbar';
+import { Navbar } from '../components/layout/LandingPage/Navbar';
 import { HoverButton } from '../components/ui/Buttons/HoverButton';
 import { Footer } from '@/components/layout/Footer';
-import { LadinCard } from '@/components/ui/Cards/LadinCard/LadinCard';
+import { LandingCard } from '@/components/ui/Cards/LandingCard/LandingCard';
 
 
 export default function LandingPage() {
@@ -147,22 +147,22 @@ export default function LandingPage() {
                         </View>
 
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pokemonGrid}>
-                            <LadinCard
+                            <LandingCard
                                 name="CHARIZARD" number="#006" type="FIRE" typeColor={colors.types.fire}
                                 image={require('../../assets/images/charizard.png')}
                                 atk={90} def={60} spd={80}
                             />
-                             <LadinCard
+                             <LandingCard
                                 name="BLASTOISE" number="#009" type="WATER" typeColor={colors.types.water}
                                 image={require('../../assets/images/blastoise.png')}
                                 atk={70} def={95} spd={50}
                             />
-                             <LadinCard
+                             <LandingCard
                                 name="PIKACHU" number="#025" type="ELECTRIC" typeColor={colors.types.electric}
                                 image={require('../../assets/images/pikachu.png')}
                                 atk={65} def={45} spd={95}
                             />
-                             <LadinCard
+                             <LandingCard
                                 name="MEWTWO" number="#150" type="PSYCHIC" typeColor={colors.types.psychic}
                                 image={require('../../assets/images/mewtwo.png')}
                                 atk={98} def={75} spd={90}

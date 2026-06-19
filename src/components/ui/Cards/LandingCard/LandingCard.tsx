@@ -14,7 +14,7 @@ interface PokemonCardProps {
   spd: number;
 }
 
-export function LadinCard({ name, number, type, typeColor, image, atk, def, spd }: PokemonCardProps) {
+export function LandingCard({ name, number, type, typeColor, image, atk, def, spd }: PokemonCardProps) {
   const StatBar = ({ label, value, color }: { label: string, value: number, color: string }) => (
     <View style={styles.statRow}>
       <Text style={styles.statLabel}>{label}</Text>
