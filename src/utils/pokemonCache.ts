@@ -11,7 +11,7 @@ export async function getCachedPokemons(): Promise<Pokemon[] | null> {
       return JSON.parse(cachedList) as Pokemon[];
     }
   } catch (e) {
-    console.error("Error reading from AsyncStorage:", e);
+    console.error("Erro ao ler do AsyncStorage:", e);
   }
   return null;
 }
@@ -27,7 +27,7 @@ export async function removeCachedPokemon(pokemonId: number): Promise<void> {
       );
     }
   } catch (e) {
-    console.error("Error removing from AsyncStorage:", e);
+    console.error("Erro ao remover do AsyncStorage:", e);
   }
 }
 
