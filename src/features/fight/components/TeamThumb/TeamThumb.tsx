@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { Pokemon } from '@/shared/types/pokemon';
-import { styles } from '../../screens/style';
+import { styles } from '../../screens/FightScreen/style';
 
 interface TeamThumbProps {
     pokemon: Pokemon;
