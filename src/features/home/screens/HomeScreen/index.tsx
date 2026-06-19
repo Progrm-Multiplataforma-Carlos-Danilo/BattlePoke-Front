@@ -3,7 +3,7 @@ import { Pokemon } from "@sharedTypes/pokemon";
 import { useEffect, useState } from "react";
 import { styles } from "./style";
 import { getCachedPokemons, captureRandomPokemons, removeCachedPokemon } from "@/utils/pokemonCache";
-import { addCaptured, removeCaptured } from "@/features/home/integration/teamIntegration";
+import { addCaptured, removeCaptured, saveTeam } from "@/features/home/integration/teamIntegration";
 import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import SelectionPokemon from "../../components/selectionsPokemon";
 import Toast from "react-native-toast-message";
@@ -106,7 +106,16 @@ export default function HomeScreen() {
     setSelectedPokemons(newTeam);
   };
 
-  const handleReadyPress = () => {
+  const handleReadyPress = async () => {
+    if (userId) {
+      try {
+        await saveTeam(userId, selectedPokemons.map((p) => p.id));
+      } catch (e) {
+        console.error(e);
+        Toast.show({ type: 'error', text1: 'Erro', text2: 'Não foi possível salvar o time.' });
+        return;
+      }
+    }
     updateTeam(selectedPokemons);
     router.push('/(dashboard)/Battle');
   };

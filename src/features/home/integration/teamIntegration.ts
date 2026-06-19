@@ -1,50 +1,82 @@
 import { httpClient } from '@sharedApi/httpClient';
-import { getPokemon } from '@sharedApi/pokemonIntegration';
 import { Pokemon } from '@sharedTypes/pokemon';
 
-// O backend é dono dos IDs (time/capturados); a PokeAPI fornece os dados
-// visuais. Buscamos a lista base uma vez e mapeamos os IDs para objetos Pokemon.
-async function hydrateByIds(ids: number[]): Promise<Pokemon[]> {
-  if (ids.length === 0) return [];
-  const all = await getPokemon(151);
-  const byId = new Map(all.map((p) => [p.id, p]));
-  return ids
-    .map((id) => byId.get(id))
-    .filter((p): p is Pokemon => p !== undefined);
+// Shape de um pokémon como o backend retorna (team/capture): o id vem em
+// `index` (string) e os stats vêm em `abilities` como { name, strength }.
+interface BackendPokemon {
+  index: string | number;
+  name: string;
+  image: string;
+  types: string[];
+  abilities?: { name: string; strength: number }[];
 }
 
-// Extrai uma lista de IDs numéricos da resposta do backend, tolerando
-// formatos como [1,2], [{id:1}], [{ "pokemon-id": 1 }].
-function extractIds(data: any): number[] {
-  if (!Array.isArray(data)) return [];
-  return data
-    .map((item) =>
-      typeof item === 'number'
-        ? item
-        : Number(item?.id ?? item?.['pokemon-id'] ?? item?.pokemonId)
-    )
-    .filter((n) => Number.isFinite(n));
+// Converte o pokémon do backend para o tipo Pokemon usado no app.
+function mapBackendPokemon(p: BackendPokemon): Pokemon {
+  return {
+    id: Number(p.index),
+    name: p.name,
+    image: p.image,
+    type: p.types ?? [],
+    stats: (p.abilities ?? []).map((a) => ({ name: a.name, forca: a.strength })),
+    height: 0,
+    weight: 0,
+    base_experience: 0,
+    abilities: [],
+  };
+}
+
+// O GET /team retorna { team: [...], capture: [...] }. Aceitamos também um
+// array cru por tolerância a variações do backend.
+function extractTeam(data: any): BackendPokemon[] {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.team)) return data.team;
+  return [];
+}
+
+// IDs do time no backend (fonte de verdade para calcular o diff).
+export async function getTeamIds(userId: string): Promise<number[]> {
+  const team = await getTeam(userId);
+  return team.map((p) => p.id);
 }
 
 export async function getTeam(userId: string): Promise<Pokemon[]> {
   const response = await httpClient.get('/pokemon/v1/team', {
     params: { 'user-id': userId },
   });
-  return hydrateByIds(extractIds(response.data));
+  return extractTeam(response.data).map(mapBackendPokemon);
 }
 
+// Substitui um pokémon do time por outro (modo "removed/new" do
+// PUT /pokemon/v1/team). Exige que removedPokemon já esteja no time.
 export async function updateTeam(
   userId: string,
   removedPokemon: number,
   newPokemon: number
 ): Promise<void> {
-  await httpClient.put('/pokemon/v1/team', null, {
-    params: {
-      'user-id': userId,
-      'removed-pokemon': removedPokemon,
-      'new-pokemon': newPokemon,
-    },
-  });
+  // user-id vai na query; os ids vão no body (TeamUpdateRequest, camelCase).
+  await httpClient.put(
+    '/pokemon/v1/team',
+    { removedPokemon, newPokemon },
+    { params: { 'user-id': userId } }
+  );
+}
+
+// Salva o time editado na Home. O backend já mantém um time de 5 pokémons e
+// só permite trocar 1↔1, então comparamos o time atual com o novo e emitimos
+// uma substituição (removed↔new) para cada pokémon que mudou.
+export async function saveTeam(
+  userId: string,
+  newTeam: number[]
+): Promise<void> {
+  const current = await getTeamIds(userId);
+
+  const removed = current.filter((id) => !newTeam.includes(id));
+  const added = newTeam.filter((id) => !current.includes(id));
+
+  for (let i = 0; i < removed.length && i < added.length; i++) {
+    await updateTeam(userId, removed[i], added[i]);
+  }
 }
 
 export async function addCaptured(

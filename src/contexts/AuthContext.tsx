@@ -4,6 +4,7 @@ import { Pokemon } from '@sharedTypes/pokemon';
 import { LoginDTO } from '@/features/auth/@types/LoginDTO';
 import { login as loginRequest } from '@/features/auth/integration/authIntegration';
 import { getToken, getUserId, clearSession } from '@sharedApi/storage';
+import { getTeam } from '@/features/home/integration/teamIntegration';
 import {DEFAULT_AVATAR} from '@/constants/global'; 
 import { AuthContextData} from '@/features/auth/@types/AuthContextData';
 
@@ -37,11 +38,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       if (storedName) setDisplayName(storedName);
       if (storedAvatar) setAvatar(storedAvatar);
+      // Mostra o cache local primeiro; em seguida tenta retomar do backend.
       if (storedTeam) setTeam(JSON.parse(storedTeam));
+      if (storedUser && storedToken && storedUserId) {
+        await loadTeam(storedUserId);
+      }
       setIsLoading(false);
     }
     loadStorageData();
   }, []);
+
+  // Retoma o time persistido no backend e atualiza o cache local.
+  async function loadTeam(id: string) {
+    try {
+      const backendTeam = await getTeam(id);
+      setTeam(backendTeam);
+      await AsyncStorage.setItem('@Auth:team', JSON.stringify(backendTeam));
+    } catch (e) {
+      console.error('Error loading team from backend:', e);
+    }
+  }
 
   async function signIn(username: string, password: string): Promise<boolean> {
     const credentials: LoginDTO = { email: username.trim(), senha: password };
@@ -52,6 +68,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUserId(auth.userId);
     setIsAuthenticated(true);
     await AsyncStorage.setItem('@Auth:user', name);
+    await loadTeam(auth.userId);
     return true;
   }
 
