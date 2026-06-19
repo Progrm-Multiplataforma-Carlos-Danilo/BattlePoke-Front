@@ -1,4 +1,4 @@
-import FightScreen from "@/features/fight/screens/index";
+import FightScreen from "@/features/fight/screens/FightScreen";
 
 export default function FightPage() {
     return <FightScreen />

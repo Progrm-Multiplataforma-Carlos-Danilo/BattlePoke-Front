@@ -5,10 +5,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { colors } from "@/constants/colors";
 import { Pokemon } from '@/shared/types/pokemon';
 import { mockOpponentTeam } from "@/mocks/opponentsTeam";
-import { TeamThumb } from "../components/TeamHum/TeamThumb";
+import { TeamThumb } from "../../components/TeamThumb/TeamThumb";
 import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useBattleSimulation } from "../integration/simulacaoBatalha";
+import { useBattleSimulation } from "../../integration/simulacaoBatalha";
 
 // ===== MAIN SCREEN =====
 

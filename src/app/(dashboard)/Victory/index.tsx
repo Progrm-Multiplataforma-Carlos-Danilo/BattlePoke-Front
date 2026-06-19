@@ -1,3 +1,3 @@
-import VictoryScreen from "@/features/fight/screens/victoryScreen";
+import VictoryScreen from "@/features/fight/screens/VictoryScreen";
 
 export default VictoryScreen;
