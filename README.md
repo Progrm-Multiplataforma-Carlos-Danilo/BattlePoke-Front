@@ -1,11 +1,12 @@
 # BattlePoke-Front
 
-Front-end do projeto **Battle-Pokemon**: um app de batalhas Pokémon construído com
-**Expo + React Native** (web/iOS/Android), **TypeScript** e **Expo Router**.
+Front-end do **Battle-Pokemon**, um app de batalhas Pokémon feito com
+**Expo + React Native** (roda na web, no iOS e no Android), **TypeScript** e **Expo Router**.
 
-O usuário registra um treinador, captura pokémons (bolsa), monta um time de 5 e
-batalha contra um oponente. O back-end é dono dos dados (perfil, time, capturados);
-a [PokeAPI](https://pokeapi.co) fornece dados visuais complementares.
+A ideia é simples: você cria um treinador, captura pokémons (que ficam na bolsa),
+monta um time de 5 e parte pra batalha contra um oponente. Quem manda nos dados
+(perfil, time, capturados) é o back-end; a [PokeAPI](https://pokeapi.co) entra só
+para completar a parte visual.
 
 ---
 
@@ -32,10 +33,10 @@ a [PokeAPI](https://pokeapi.co) fornece dados visuais complementares.
 
 ```bash
 npm install
-npx expo start --iniciar o projeto
+npx expo start
 ```
 
-Não há etapa de build de tipos no `package.json`. Para checar os tipos manualmente:
+Não existe um script de checagem de tipos no `package.json`. Se quiser conferir os tipos na mão:
 
 ```bash
 npx tsc --noEmit
@@ -45,9 +46,9 @@ npx tsc --noEmit
 
 ## Visão geral da arquitetura
 
-O projeto segue uma organização **feature-based** (cada domínio agrupa suas
-próprias telas, componentes, tipos e integrações), com uma camada **compartilhada**
-(`shared`, `components`, `constants`, `contexts`, `utils`) para o que é transversal.
+A organização é **por feature**: cada domínio guarda as próprias telas, componentes,
+tipos e integrações. O que é transversal e usado por todo mundo fica numa camada
+**compartilhada** (`shared`, `components`, `constants`, `contexts`, `utils`).
 
 ```
 src/
@@ -65,18 +66,18 @@ src/
 
 ### Princípio central
 
-- **As rotas (`app/`) não contêm lógica.** Elas só re-exportam a tela da feature
-  correspondente. Toda a regra de negócio vive em `features/`.
-- **O back-end é a fonte de verdade** dos dados (perfil, time, bolsa). O front
-  hidrata visualmente com a PokeAPI quando necessário e usa o AsyncStorage como
-  cache/sessão.
+- **As rotas (`app/`) não têm lógica nenhuma.** Cada uma só re-exporta a tela da
+  feature correspondente — toda a regra de negócio mora em `features/`.
+- **Quem tem a palavra final sobre os dados é o back-end** (perfil, time, bolsa).
+  O front completa o visual com a PokeAPI quando precisa e usa o AsyncStorage para
+  guardar sessão e cache.
 
 ---
 
 ## Anatomia de uma feature
 
-Cada feature em `src/features/<nome>/` pode conter as pastas abaixo. Nem toda
-feature usa todas — só as que fizerem sentido para o domínio.
+Toda feature em `src/features/<nome>/` pode ter as pastas abaixo. Ninguém é
+obrigado a usar todas — cada feature pega só o que faz sentido pra ela.
 
 ```
 features/auth/
@@ -112,9 +113,9 @@ features/auth/
 
 ## Styles
 
-Estilos usam **`StyleSheet.create`** do React Native, **colocados ao lado do
-componente** num arquivo `style.ts` (ou `styles.ts`). Não há CSS nem
-styled-components.
+Os estilos usam o **`StyleSheet.create`** do React Native e ficam **ao lado do
+componente**, num arquivo `style.ts` (ou `styles.ts`). Nada de CSS nem
+styled-components por aqui.
 
 ```
 components/LoginForm/
@@ -137,12 +138,12 @@ export const styles = StyleSheet.create({
 
 Convenções:
 
-- **Cores, fontes e valores globais vêm de `src/constants/`** — não use hex solto
-  quando houver um token correspondente em `colors`.
-- Cada componente/tela é dono do seu `style.ts`; **estilos não são compartilhados**
-  entre features (favorece isolamento).
-- Tema escuro é o padrão (`colors.background`, `colors.surface`, etc.).
-- Use `Platform` para divergências web/native quando necessário.
+- **Cores, fontes e valores globais saem sempre de `src/constants/`** — se já
+  existe um token em `colors`, evite cravar um hex solto.
+- Cada componente/tela cuida do próprio `style.ts`; **estilos não são compartilhados**
+  entre features, justamente para manter tudo isolado.
+- O tema escuro é o padrão (`colors.background`, `colors.surface`, etc.).
+- Quando web e native precisarem se comportar diferente, use `Platform`.
 
 ### `constants/`
 
@@ -156,7 +157,7 @@ Convenções:
 
 ## Types
 
-Tipos ficam em duas escalas:
+Os tipos vivem em dois níveis:
 
 - **`src/shared/types/`** — contratos de domínio usados por várias features.
   - `pokemon.ts` → `Pokemon`, `Stats`
@@ -166,18 +167,19 @@ Tipos ficam em duas escalas:
 
 Convenções:
 
-- **DTO** = formato trocado com o back-end na fronteira da `integration`. Quando o
-  front e o back divergem nos nomes, a conversão acontece **na integration**
-  (ex.: `authIntegration` mapeia `{ email, senha } → { username, password }`).
-- O modelo `Pokemon` do app é o alvo; respostas do back-end (que usam `index`,
-  `abilities` como stats, etc.) são **mapeadas para `Pokemon`** dentro da
-  integration, nunca espalhadas pela UI.
+- **DTO** é o formato que viaja de e para o back-end, ali na fronteira da
+  `integration`. Quando os nomes do front e do back não batem, a conversão
+  acontece **na integration** (ex.: `authIntegration` traduz
+  `{ email, senha } → { username, password }`).
+- O modelo `Pokemon` do app é sempre o destino: o que o back-end devolve (com
+  `index`, `abilities` no lugar de stats, etc.) é **convertido para `Pokemon`**
+  dentro da integration, sem deixar esse formato cru vazar para a UI.
 
 ---
 
 ## Integration (camada de dados)
 
-Toda comunicação com o back-end passa pelo **cliente axios centralizado**.
+Toda conversa com o back-end passa por um único **cliente axios centralizado**.
 
 ### `shared/api/`
 
@@ -189,7 +191,7 @@ Toda comunicação com o back-end passa pelo **cliente axios centralizado**.
 | `pokemonIntegration.ts` | Integração com a **PokeAPI** (lista e detalhes) |
 | `api.ts` | (reservado) |
 
-O `httpClient` resolve duas preocupações transversais:
+O `httpClient` cuida de duas coisas que valem para todas as requisições:
 
 ```ts
 // 1) injeta o token salvo em toda requisição
@@ -208,9 +210,9 @@ httpClient.interceptors.response.use(
 
 ### Integrações por feature
 
-Cada feature que fala com o back-end tem seu `integration/<nome>Integration.ts`.
-A integration **usa o `httpClient`** e expõe funções de alto nível, escondendo o
-formato cru do back-end:
+Toda feature que conversa com o back-end tem o seu `integration/<nome>Integration.ts`.
+A integration **usa o `httpClient`** por baixo e oferece funções mais amigáveis,
+escondendo o formato cru que vem do back-end:
 
 ```ts
 // features/auth/integration/authIntegration.ts
@@ -228,9 +230,9 @@ export async function login(data: LoginDTO): Promise<AuthResponse> {
 | **Back-end próprio** (AWS) | `httpClient` (`@sharedApi/httpClient`) | auth, perfil, time, capturados |
 | **PokeAPI** (pública) | axios próprio em `pokemonIntegration.ts` | lista de pokémons, detalhes, evoluções |
 
-> Padrão importante: o back-end é dono dos **IDs**; a PokeAPI fornece os **dados
-> visuais**. Algumas respostas do back-end já trazem `name`/`image`/`types`, e
-> nesses casos a integration mapeia direto, sem depender da PokeAPI.
+> Vale guardar essa regra: os **IDs** são do back-end; os **dados visuais** vêm da
+> PokeAPI. Mas algumas respostas do back-end já chegam com `name`/`image`/`types`,
+> e aí a integration aproveita direto, sem precisar bater na PokeAPI.
 
 #### Endpoints do back-end (referência)
 
@@ -245,39 +247,40 @@ export async function login(data: LoginDTO): Promise<AuthResponse> {
 | Adicionar capturado | `PUT` | `/pokemon/v1/captured` | query `user-id`, `pokemon-id` |
 | Remover capturado | `DELETE` | `/pokemon/v1/captured` | query `user-id`, `pokemon-id` |
 
-> **Time vs. bolsa:** o back-end mantém dois conjuntos mutuamente exclusivos —
-> `team` (5 pokémons de batalha, sempre cheio) e `capture` (bolsa). "Atualizar
-> time" só **substitui** um por outro (`removedPokemon` precisa estar no time,
-> `newPokemon` nos capturados); ao substituir, o pokémon trocado **volta para a
-> bolsa**. Não existe "adicionar a time vazio" — todo usuário nasce com 5.
+> **Time vs. bolsa:** o back-end separa duas listas que nunca se sobrepõem —
+> `team` (os 5 pokémons de batalha, sempre cheio) e `capture` (a bolsa). "Atualizar
+> time" não adiciona nem remove, só **troca**: o `removedPokemon` tem que estar no
+> time e o `newPokemon` na bolsa, e quem sai do time **volta para a bolsa**. Não dá
+> para "colocar num slot vazio" — todo usuário já começa com os 5 preenchidos.
 
 ---
 
 ## Estado global — `contexts/AuthContext.tsx`
 
-Único contexto da aplicação. Mantém sessão e dados do treinador, e expõe ações:
+É o único contexto do app. Ele guarda a sessão e os dados do treinador e ainda
+oferece as ações para mexer neles:
 
 - **Estado:** `isAuthenticated`, `user`, `userId`, `displayName`, `avatar`,
   `team`, `isLoading`.
 - **Ações:** `signIn`, `signOut`, `updateDisplayName`, `updateAvatar`,
   `updateTeam`.
-- **Boot:** ao iniciar, restaura a sessão do AsyncStorage e recarrega o time do
-  back-end.
+- **Boot:** ao abrir o app, ele restaura a sessão salva no AsyncStorage e busca o
+  time de novo no back-end.
 
-Consumido com o hook `useAuth()`:
+Para consumir, é só usar o hook `useAuth()`:
 
 ```tsx
 const { userId, team, updateTeam } = useAuth();
 ```
 
-O provider é montado uma vez em `app/_layout.tsx`, envolvendo toda a navegação.
+O provider é montado uma única vez em `app/_layout.tsx`, abraçando toda a navegação.
 
 ---
 
 ## Navegação — `app/` (expo-router)
 
-Roteamento **baseado em arquivos**. Grupos entre parênteses (`(auth)`,
-`(dashboard)`) organizam rotas sem aparecer na URL.
+O roteamento é **baseado em arquivos**. Os grupos entre parênteses (`(auth)`,
+`(dashboard)`) servem só para organizar as rotas — eles não aparecem na URL.
 
 ```
 app/
@@ -297,7 +300,7 @@ app/
 
 ```
 
-As rotas são finas — apenas re-exportam a tela da feature:
+As rotas são bem enxutas — só re-exportam a tela da feature:
 
 ```tsx
 // app/(auth)/Login/index.tsx
@@ -305,68 +308,8 @@ import { LoginScreen } from "@/features/auth/screens/LoginScreen/LoginScreen";
 export default LoginScreen;
 ```
 
-Navegação programática usa `router` / `useRouter` do `expo-router`:
+Para navegar via código, é só usar `router` / `useRouter` do `expo-router`:
 
 ```ts
 router.push('/(dashboard)/Home');
-```
-
----
-
-## Aliases de import (`tsconfig.json`)
-
-Use os aliases em vez de caminhos relativos longos:
-
-| Alias | Aponta para |
-|---|---|
-| `@/*` | `src/*` |
-| `@sharedTypes/*` | `src/shared/types/*` |
-| `@sharedApi/*` | `src/shared/api/*` |
-| `@homeIntegrations/*` | `src/features/home/integration/*` |
-| `@pokedexIntegrations/*` | `src/features/pokedex/integration/*` |
-
-```ts
-import { Pokemon } from "@sharedTypes/pokemon";
-import { httpClient } from "@sharedApi/httpClient";
-import { colors } from "@/constants/colors";
-```
-
----
-
-## Convenções rápidas
-
-- **Uma pasta por componente/tela**, com `index.tsx` (ou `Nome.tsx`) + `style.ts`.
-- **Lógica de UI em hooks** (`features/*/hooks/`); telas só compõem.
-- **HTTP só nas integrations**; componentes nunca chamam axios direto.
-- **Validação de formulário** com `yup` + `react-hook-form` (`@hookform/resolvers`).
-- **Feedback ao usuário** via `Toast.show(...)`; mensagens de erro vêm
-  normalizadas do `httpClient`.
-- **Cores/fontes** sempre de `constants/`.
-- **Tipos/DTOs** em `@types/` (feature) ou `shared/types/` (global); conversões
-  front↔back acontecem na integration.
-
----
-
-## Estrutura de pastas (resumo)
-
-```
-src/
-├─ app/                     # rotas (expo-router)
-├─ components/
-│  ├─ layout/               # Navbar, Sidebar, Footer, Loading, Toast
-│  └─ ui/                   # Buttons, Cards, Inputs, TypeBadge, StatusBar, ...
-├─ constants/               # colors, fonts, global
-├─ contexts/                # AuthContext
-├─ features/
-│  ├─ auth/                 # login/registro (@types, components, hooks, integration, screens, validations)
-│  ├─ home/                 # captura, bolsa e montagem de time
-│  ├─ battle/               # seleção de modo / preview de time
-│  ├─ fight/                # simulação da batalha (lógica em hooks/; oponente via mock, sem back-end)
-│  ├─ pokedex/              # listagem e detalhes de pokémons
-│  └─ profile/              # perfil do treinador
-├─ shared/
-│  ├─ api/                  # httpClient, config, storage, pokemonIntegration
-│  └─ types/                # Pokemon, Profile
-├─ utils/                   # pokemonCache, pokemonUtils
-└─ mocks/                   # opponentsTeam
 ```
