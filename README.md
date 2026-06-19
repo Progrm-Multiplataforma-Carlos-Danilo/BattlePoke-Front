@@ -90,7 +90,7 @@ features/auth/
 │   │   ├─ index.tsx
 │   │   └─ style.ts
 │   └─ LoginHero/
-├─ hooks/            # hooks com a lógica de UI/estado da feature (useLogin)
+├─ hooks/            # hooks com a lógica de UI/estado da feature (ex.: useLogin, useBattleSimulation)
 ├─ integration/      # chamadas HTTP da feature (authIntegration.ts)
 ├─ screens/          # composição da tela (LoginScreen.tsx + style.ts)
 └─ validations/      # schemas yup dos formulários (loginSchema, registerSchema)
@@ -361,7 +361,7 @@ src/
 │  ├─ auth/                 # login/registro (@types, components, hooks, integration, screens, validations)
 │  ├─ home/                 # captura, bolsa e montagem de time
 │  ├─ battle/               # seleção de modo / preview de time
-│  ├─ fight/                # simulação da batalha
+│  ├─ fight/                # simulação da batalha (lógica em hooks/; oponente via mock, sem back-end)
 │  ├─ pokedex/              # listagem e detalhes de pokémons
 │  └─ profile/              # perfil do treinador
 ├─ shared/
