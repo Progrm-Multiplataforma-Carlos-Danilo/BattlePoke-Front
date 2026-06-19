@@ -98,7 +98,6 @@ export const styles = StyleSheet.create({
         height: 38,
     },
 
-    // ===== BATTLE AREA =====
     battleArea: {
         flex: 1,
         flexDirection: 'row',
@@ -109,7 +108,6 @@ export const styles = StyleSheet.create({
         gap: 12,
     },
 
-    // ===== POKEMON ACTIVE CARD =====
     activeCardWrapper: {
         flex: 1,
         maxWidth: '48%',
@@ -144,7 +142,6 @@ export const styles = StyleSheet.create({
         gap: 4,
     },
 
-    // ===== POKEMON INFO =====
     activeCardInfo: {
         padding: 12,
         backgroundColor: 'rgba(15, 15, 25, 0.95)',

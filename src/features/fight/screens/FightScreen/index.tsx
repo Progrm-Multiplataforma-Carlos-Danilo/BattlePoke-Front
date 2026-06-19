@@ -10,8 +10,6 @@ import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useBattleSimulation } from "../../hooks/useBattleSimulation";
 
-// ===== MAIN SCREEN =====
-
 export default function FightScreen() {
     const { team } = useAuth();
     const pokemonList: Pokemon[] = team || [];
