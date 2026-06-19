@@ -26,25 +26,39 @@ function mapBackendPokemon(p: BackendPokemon): Pokemon {
   };
 }
 
-// O GET /team retorna { team: [...], capture: [...] }. Aceitamos também um
-// array cru por tolerância a variações do backend.
-function extractTeam(data: any): BackendPokemon[] {
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data?.team)) return data.team;
-  return [];
+function toPokemonList(raw: any): Pokemon[] {
+  return (Array.isArray(raw) ? raw : []).map(mapBackendPokemon);
+}
+
+// O GET /team retorna { team: [...], capture: [...] } — o time de batalha e a
+// bolsa (capturados). Buscamos ambos numa única chamada.
+export async function getTeamData(
+  userId: string
+): Promise<{ team: Pokemon[]; capture: Pokemon[] }> {
+  const response = await httpClient.get('/pokemon/v1/team', {
+    params: { 'user-id': userId },
+  });
+  const data = response.data ?? {};
+  return {
+    team: toPokemonList(data.team),
+    capture: toPokemonList(data.capture),
+  };
+}
+
+export async function getTeam(userId: string): Promise<Pokemon[]> {
+  return (await getTeamData(userId)).team;
+}
+
+// Bolsa (pokémons capturados) do backend — fonte de verdade da lista de
+// seleção da Home.
+export async function getCaptured(userId: string): Promise<Pokemon[]> {
+  return (await getTeamData(userId)).capture;
 }
 
 // IDs do time no backend (fonte de verdade para calcular o diff).
 export async function getTeamIds(userId: string): Promise<number[]> {
   const team = await getTeam(userId);
   return team.map((p) => p.id);
-}
-
-export async function getTeam(userId: string): Promise<Pokemon[]> {
-  const response = await httpClient.get('/pokemon/v1/team', {
-    params: { 'user-id': userId },
-  });
-  return extractTeam(response.data).map(mapBackendPokemon);
 }
 
 // Substitui um pokémon do time por outro (modo "removed/new" do

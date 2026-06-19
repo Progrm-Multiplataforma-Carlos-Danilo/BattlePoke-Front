@@ -2,8 +2,8 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Pokemon } from "@sharedTypes/pokemon";
 import { useEffect, useState } from "react";
 import { styles } from "./style";
-import { getCachedPokemons, captureRandomPokemons, removeCachedPokemon } from "@/utils/pokemonCache";
-import { addCaptured, removeCaptured, saveTeam } from "@/features/home/integration/teamIntegration";
+import { captureRandomPokemons } from "@/utils/pokemonCache";
+import { addCaptured, removeCaptured, saveTeam, getCaptured, getTeamData } from "@/features/home/integration/teamIntegration";
 import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import SelectionPokemon from "../../components/selectionsPokemon";
 import Toast from "react-native-toast-message";
@@ -34,9 +34,11 @@ export default function HomeScreen() {
       try {
         const data = await getProfile(userId);
         if (active) setProfile(data);
-        const cachedPokemons = await getCachedPokemons();
-        if (cachedPokemons) {
-          setPokemonList(cachedPokemons);
+        // Time e bolsa são a fonte de verdade do backend (mesma chamada).
+        const { team, capture } = await getTeamData(userId);
+        if (active) {
+          setSelectedPokemons(team);
+          setPokemonList(capture);
         }
       } catch (e) {
         console.error("Error fetching Pokemon:", e);
@@ -50,12 +52,15 @@ export default function HomeScreen() {
   const handleCaptureRandom = async () => {
     setLoading(true);
     try {
-      const prevIds = new Set(pokemonList.map((p) => p.id));
-      const newPokemons = await captureRandomPokemons();
-      setPokemonList(newPokemons);
+      const sorted = await captureRandomPokemons();
       if (userId) {
-        const justCaptured = newPokemons.filter((p) => !prevIds.has(p.id));
+        // Captura no backend e recarrega a bolsa (fonte de verdade).
+        const prevIds = new Set(pokemonList.map((p) => p.id));
+        const justCaptured = sorted.filter((p) => !prevIds.has(p.id));
         await Promise.all(justCaptured.map((p) => addCaptured(userId, p.id)));
+        setPokemonList(await getCaptured(userId));
+      } else {
+        setPokemonList(sorted);
       }
     } catch (e) {
       console.error(e);
@@ -68,8 +73,10 @@ export default function HomeScreen() {
     setSelectedPokemons((prev) => prev.filter((p) => p.id !== pokemon.id));
     setPokemonList((prev) => prev.filter((p) => p.id !== pokemon.id));
     try {
-      await removeCachedPokemon(pokemon.id);
-      if (userId) await removeCaptured(userId, pokemon.id);
+      if (userId) {
+        await removeCaptured(userId, pokemon.id);
+        setPokemonList(await getCaptured(userId));
+      }
       Toast.show({ type: 'success', text1: 'Pokémon liberado', text2: `${pokemon.name} foi removido da bolsa.` });
     } catch (e) {
       console.error(e);
@@ -82,13 +89,19 @@ export default function HomeScreen() {
   }
 
   // Persiste a seleção atual no backend pareando as trocas contra o time real
-  // (saveTeam faz o diff). Best-effort: avisa em caso de erro, mas não bloqueia
-  // a edição. Também atualiza o cache local do time no contexto.
+  // (saveTeam faz o diff). Como time e bolsa são mutuamente exclusivos no
+  // backend (selecionar move da bolsa para o time, e o substituído volta para a
+  // bolsa), ressincronizamos ambos do backend após salvar. Best-effort: avisa
+  // em caso de erro, mas não bloqueia a edição.
   const persistTeam = async (team: Pokemon[]) => {
     updateTeam(team);
     if (!userId) return;
     try {
       await saveTeam(userId, team.map((p) => p.id));
+      const { team: freshTeam, capture } = await getTeamData(userId);
+      setSelectedPokemons(freshTeam);
+      updateTeam(freshTeam);
+      setPokemonList(capture);
     } catch (e) {
       console.error(e);
       Toast.show({ type: 'error', text1: 'Erro', text2: 'Não foi possível salvar o time.' });
