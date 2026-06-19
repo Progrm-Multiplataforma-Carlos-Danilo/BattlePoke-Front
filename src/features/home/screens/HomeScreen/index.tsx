@@ -81,6 +81,20 @@ export default function HomeScreen() {
     return <Loading />;
   }
 
+  // Persiste a seleção atual no backend pareando as trocas contra o time real
+  // (saveTeam faz o diff). Best-effort: avisa em caso de erro, mas não bloqueia
+  // a edição. Também atualiza o cache local do time no contexto.
+  const persistTeam = async (team: Pokemon[]) => {
+    updateTeam(team);
+    if (!userId) return;
+    try {
+      await saveTeam(userId, team.map((p) => p.id));
+    } catch (e) {
+      console.error(e);
+      Toast.show({ type: 'error', text1: 'Erro', text2: 'Não foi possível salvar o time.' });
+    }
+  };
+
   const handleSelectPokemon = (pokemon: Pokemon) => {
     if (selectedPokemons.length >= 5) {
       Toast.show({
@@ -98,25 +112,18 @@ export default function HomeScreen() {
       });
       return;
     }
-    setSelectedPokemons([...selectedPokemons, pokemon]);
+    const newTeam = [...selectedPokemons, pokemon];
+    setSelectedPokemons(newTeam);
+    persistTeam(newTeam);
   };
 
   const handleSlotPress = (index: number) => {
     const newTeam = selectedPokemons.filter((_, i) => i !== index);
     setSelectedPokemons(newTeam);
+    persistTeam(newTeam);
   };
 
-  const handleReadyPress = async () => {
-    if (userId) {
-      try {
-        await saveTeam(userId, selectedPokemons.map((p) => p.id));
-      } catch (e) {
-        console.error(e);
-        Toast.show({ type: 'error', text1: 'Erro', text2: 'Não foi possível salvar o time.' });
-        return;
-      }
-    }
-    updateTeam(selectedPokemons);
+  const handleReadyPress = () => {
     router.push('/(dashboard)/Battle');
   };
 
