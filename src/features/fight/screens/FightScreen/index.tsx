@@ -8,7 +8,7 @@ import { mockOpponentTeam } from "@/mocks/opponentsTeam";
 import { TeamThumb } from "../../components/TeamThumb/TeamThumb";
 import { PokemonCard } from "@/components/ui/Cards/PokeCard/PokemonCard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useBattleSimulation } from "../../integration/simulacaoBatalha";
+import { useBattleSimulation } from "../../hooks/useBattleSimulation";
 
 // ===== MAIN SCREEN =====
 
