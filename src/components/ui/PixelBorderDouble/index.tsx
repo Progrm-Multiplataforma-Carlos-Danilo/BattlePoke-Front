@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
-import { colors } from '@/constants/colors';
+import { View, StyleProp, ViewStyle } from 'react-native';
+import { styles } from './style';
 
 export function PixelBorderDouble({
   children,
@@ -15,16 +15,3 @@ export function PixelBorderDouble({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  pixelOuter: {
-    borderWidth: 2,
-    borderColor: colors.border,
-    padding: 2,
-    backgroundColor: 'transparent',
-  },
-  pixelInner: {
-    borderWidth: 2,
-    borderColor: colors.border,
-  },
-});
