@@ -52,6 +52,26 @@ const toastConfig = {
 
   ),
 
+  edicaoToast: ({ text1, text2 }: ToastConfigProps) => (
+    <View style={styles.edicaoToast}>
+      <View style={styles.edicaoIndicatorToast} />
+      <View style={styles.edicaoContentToast}>
+        <View style={styles.edicaotitleRowToast}>
+
+          <Text style={styles.edicaoTitleToast}>{text1}</Text>
+        </View>
+        <Text style={styles.edicaoSubtitleToast}>
+          {text2}
+        </Text>
+      </View>
+      <TouchableOpacity onPress={() => Toast.hide()}>
+        <MaterialCommunityIcons name="close-circle" size={24} color={colors.types.electric} />
+      </TouchableOpacity>
+
+    </View>
+
+  ),
+
   Login: ({ text1, text2, props, animationType = 'fadeIn' }: ToastConfigProps) => (
     <Animatable.View animation={animationType} duration={500} style={styles.toastContainer}>
       <View style={styles.errorToastLogin}>
@@ -72,15 +92,6 @@ const toastConfig = {
     </Animatable.View>
   ),
 
-  edicao: ({ text1, text2, props, animationType = 'fadeIn' }: ToastConfigProps) => (
-    <Animatable.View animation={animationType} duration={500} style={styles.toastContainer}>
-      <View style={styles.edicaoToast}>
-        <Text style={{ fontSize: 24 }}>{props.icon}</Text>
-        <Text style={styles.edicaoText}>{text1}</Text>
-        <Text style={styles.edicaoSubText}>{text2}</Text>
-      </View>
-    </Animatable.View>
-  ),
 
   cadastro: ({ text1, text2, props, animationType = 'fadeIn' }: ToastConfigProps) => (
     <Animatable.View animation={animationType} duration={500} style={styles.toastContainer}>

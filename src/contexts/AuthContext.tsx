@@ -21,12 +21,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     async function loadStorageData() {
-      const [storedUser, storedName, storedAvatar, storedTeam, storedToken, storedUserId] =
+      const [storedUser, storedName, storedAvatar, storedToken, storedUserId] =
         await Promise.all([
           AsyncStorage.getItem('@Auth:user'),
           AsyncStorage.getItem('@Auth:displayName'),
           AsyncStorage.getItem('@Auth:avatar'),
-          AsyncStorage.getItem('@Auth:team'),
           getToken(),
           getUserId(),
         ]);
@@ -38,8 +37,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       if (storedName) setDisplayName(storedName);
       if (storedAvatar) setAvatar(storedAvatar);
-      // Mostra o cache local primeiro; em seguida tenta retomar do backend.
-      if (storedTeam) setTeam(JSON.parse(storedTeam));
       if (storedUser && storedToken && storedUserId) {
         await loadTeam(storedUserId);
       }
@@ -48,12 +45,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loadStorageData();
   }, []);
 
-  // Retoma o time persistido no backend e atualiza o cache local.
   async function loadTeam(id: string) {
     try {
       const backendTeam = await getTeam(id);
       setTeam(backendTeam);
-      await AsyncStorage.setItem('@Auth:team', JSON.stringify(backendTeam));
     } catch (e) {
       console.error('Error loading team from backend:', e);
     }
@@ -77,7 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUserId(null);
     setIsAuthenticated(false);
     setTeam([]);
-    AsyncStorage.multiRemove(['@Auth:user', '@Auth:team']);
+    AsyncStorage.removeItem('@Auth:user');
     clearSession();
   }
 
@@ -96,7 +91,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   function updateTeam(newTeam: Pokemon[]) {
     setTeam(newTeam);
-    AsyncStorage.setItem('@Auth:team', JSON.stringify(newTeam));
   }
 
   return (

@@ -3,10 +3,13 @@ import Toast from 'react-native-toast-message';
 import { Pokemon } from '@/shared/types/pokemon';
 import { captureRandomPokemons } from '@/utils/pokemonCache';
 import { router } from 'expo-router';
+import { useAuth } from '@/contexts/AuthContext';
+import { addCaptured } from '@/features/home/integration/teamIntegration';
 
 const STASTS_ORDER = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'];
 
 export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemon[]) {
+    const { userId } = useAuth();
     const [activePlayerIndex, setActivePlayerIndex] = useState(0);
     const [activeOpponentIndex, setActiveOpponentIndex] = useState(0);
     const [activeStatIndex, setActiveStatIndex] = useState(0);
@@ -111,16 +114,22 @@ export function useBattleSimulation(pokemonList: Pokemon[], opponentTeam: Pokemo
                     visibilityTime: 6000
                 });
 
-                const newPokemons = await captureRandomPokemons();
-                // Toast.show({
-                //    type: 'success',
-                //    text1: `Você capturou 1 pokemons! ${newPokemons[newPokemons.length - 1].name}`,
-                //    text2: `Volte para a home para conhecer ele!`,
-                //    position: 'top',
-                //    visibilityTime: 4000
-                //});
-                const pokemonCapturado = newPokemons[newPokemons.length - 1];
-                // Ao invés de push('/Victory'), enviamos um objeto com os params
+                const newPokemons = await captureRandomPokemons(1);
+                const pokemonCapturado = newPokemons[0];
+
+                if (userId) {
+                    try {
+                        await addCaptured(userId, pokemonCapturado.id);
+                    } catch (e) {
+                        Toast.show({
+                            type: 'error',
+                            text1: 'Erro ao capturar pokemon',
+                            text2: 'Tente novamente mais tarde.',
+                            position: 'top',
+                            visibilityTime: 4000
+                        });
+                    }
+                }
                 router.replace({
                     pathname: '/Victory',
                     params: {

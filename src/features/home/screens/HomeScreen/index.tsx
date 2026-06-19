@@ -21,6 +21,7 @@ export default function HomeScreen() {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const [profile, setProfile] = useState<Profile | null>();
   const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>(savedTeam);
+  const [activeBankPokemon, setActiveBankPokemon] = useState<Pokemon | null>(null);
 
   useEffect(() => {
 
@@ -109,14 +110,6 @@ export default function HomeScreen() {
   };
 
   const handleSelectPokemon = (pokemon: Pokemon) => {
-    if (selectedPokemons.length >= 5) {
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: "Seu time está cheio!",
-      });
-      return;
-    }
     if (selectedPokemons.find((pok) => pok.id === pokemon.id)) {
       Toast.show({
         type: "error",
@@ -125,15 +118,40 @@ export default function HomeScreen() {
       });
       return;
     }
+
+    if (selectedPokemons.length >= 5) {
+      if (activeBankPokemon?.id === pokemon.id) {
+        setActiveBankPokemon(null);
+      } else {
+        setActiveBankPokemon(pokemon);
+        Toast.show({
+          type: "edicaoToast",
+          text1: "Trocar Pokémon",
+          text2: `Você selecionou ${pokemon.name}. Agora clique em um Pokémon do seu time para substituí-lo.`,
+        });
+      }
+      return;
+    }
+
     const newTeam = [...selectedPokemons, pokemon];
     setSelectedPokemons(newTeam);
     persistTeam(newTeam);
   };
 
   const handleSlotPress = (index: number) => {
-    const newTeam = selectedPokemons.filter((_, i) => i !== index);
-    setSelectedPokemons(newTeam);
-    persistTeam(newTeam);
+    if (activeBankPokemon) {
+      const newTeam = [...selectedPokemons];
+      newTeam[index] = activeBankPokemon;
+      setSelectedPokemons(newTeam);
+      persistTeam(newTeam);
+      setActiveBankPokemon(null);
+    } else {
+      Toast.show({
+        type: "edicaoToast",
+        text1: "Substituir Pokémon",
+        text2: "Para trocar este Pokémon, primeiro selecione um Pokémon da sua bolsa.",
+      });
+    }
   };
 
   const handleReadyPress = () => {
@@ -149,38 +167,23 @@ export default function HomeScreen() {
         </View>
         <View style={styles.content}>
           <View style={styles.listContainer}>
-            {pokemonList.length >= 5 ? (
+            {pokemonList.length > 0 ? (
               <PokemonCard
                 pokemonList={pokemonList}
                 columns={3}
                 onPokemonPress={handleSelectPokemon}
                 onDeletePress={handleDeletePokemon}
+                activePokemonId={activeBankPokemon?.id}
               />
-            ) : pokemonList.length < 5 ? (
-              <>
-                <ScrollView style={styles.scroll}>
-                  <PokemonCard
-                    pokemonList={pokemonList}
-                    columns={3}
-                    onPokemonPress={handleSelectPokemon}
-                    onDeletePress={handleDeletePokemon} />
-                  <View style={styles.emptyContainer}>
-                    <Text style={styles.emptyTitle}>Pokémons para Capturar</Text>
-                    <Text style={styles.emptySubtitle}>Capture mais Pokémons para formar seu time</Text>
-                    <TouchableOpacity style={styles.captureButton} onPress={handleCaptureRandom} activeOpacity={0.8}>
-                      <Text style={styles.captureButtonText}>Capturar 5 Pokémons</Text>
-                    </TouchableOpacity>
-                  </View>
-                </ScrollView></>
             ) : (
-
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyTitle}>Nenhum Pokémon Capturado</Text>
                 <Text style={styles.emptySubtitle}>Explore o mundo para encontrar novos aliados!</Text>
                 <TouchableOpacity style={styles.captureButton} onPress={handleCaptureRandom} activeOpacity={0.8}>
                   <Text style={styles.captureButtonText}>Capturar 5 Pokémons</Text>
                 </TouchableOpacity>
-              </View>)}
+              </View>
+            )}
           </View>
           <View style={styles.sidebarContainer}>
             <SelectionPokemon

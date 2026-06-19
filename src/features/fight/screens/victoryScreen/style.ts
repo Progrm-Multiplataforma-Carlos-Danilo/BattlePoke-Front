@@ -6,7 +6,6 @@ const { width } = Dimensions.get('window');
 export const TYPE_COLORS: Record<string, string> = colors.types as any;
 
 export const styles = StyleSheet.create({
-    // ── CONTAINER ──
     container: {
         flex: 1,
         backgroundColor: '#0A0E13',
@@ -14,8 +13,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         overflow: 'hidden',
     },
-
-    // ── VICTORY TITLE ──
     victoryTitle: {
         fontSize: 52,
         fontWeight: '900',
@@ -35,7 +32,6 @@ export const styles = StyleSheet.create({
         marginBottom: 25,
     },
 
-    // ── POKEMON CARD ──
     cardWrapper: {
         alignItems: 'center',
         marginBottom: 30,
@@ -70,7 +66,6 @@ export const styles = StyleSheet.create({
         textTransform: 'uppercase',
     },
 
-    // ── BADGES (LV / TYPE) ──
     badgesRow: {
         flexDirection: 'row',
         gap: 8,
@@ -91,41 +86,6 @@ export const styles = StyleSheet.create({
         letterSpacing: 1,
     },
 
-    // ── XP BAR ──
-    xpContainer: {
-        width: '100%',
-        marginTop: 6,
-    },
-    xpHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 6,
-    },
-    xpLabel: {
-        color: '#8899AA',
-        fontSize: 10,
-        fontWeight: 'bold',
-        letterSpacing: 1.5,
-    },
-    xpValue: {
-        color: '#6AC0FF',
-        fontSize: 10,
-        fontWeight: 'bold',
-    },
-    xpBarBg: {
-        width: '100%',
-        height: 6,
-        backgroundColor: 'rgba(255, 255, 255, 0.08)',
-        borderRadius: 3,
-        overflow: 'hidden',
-    },
-    xpBarFill: {
-        height: '100%',
-        backgroundColor: '#6AC0FF',
-        borderRadius: 3,
-    },
-
-    // ── REWARDS ROW ──
     rewardsRow: {
         flexDirection: 'row',
         gap: 10,
@@ -163,19 +123,6 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
-    // ── PARTICLE (base estática — left/size/color/opacity/transform são dinâmicos) ──
-    particle: {
-        position: 'absolute' as const,
-        bottom: -20,
-    },
-
-    // ── GLOW LAYER atrás do card (cor/opacity são dinâmicos) ──
-    glowLayer: {
-        borderRadius: 20,
-        transform: [{ scale: 1.06 }],
-    },
-
-    // ── BUTTONS ──
     buttonsRow: {
         flexDirection: 'row',
         gap: 12,

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useMemo } from 'react';
-import { Text, View, Image, TouchableOpacity,Animated, Dimensions, StyleSheet} from 'react-native';
+import { Text, View, Image, TouchableOpacity, Animated, Dimensions, StyleSheet } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Pokemon } from '@/shared/types/pokemon';
 import { styles, TYPE_COLORS } from './style';
@@ -93,7 +93,7 @@ export default function VictoryScreen() {
                     <Image source={{ uri: pokemon.image }} style={styles.pokemonImage} />
                     <Text style={styles.pokemonName}>{pokemon.name}</Text>
 
-                    <View style={styles.badgesRow}>          
+                    <View style={styles.badgesRow}>
                         <View style={[styles.badge, { borderColor: typeColor }]}>
                             <Text style={[styles.badgeText, { color: typeColor }]}>
                                 {pokemon.type.join(' / ').toUpperCase()}

@@ -19,6 +19,7 @@ interface PokemonCardProps {
   imageBackgroundColor?: string;
   borderColor?: string;
   activeStatName?: string;
+  activePokemonId?: number;
 }
 
 const PokemonType = ({ type, color }: { type: string; color: string; }) => {
@@ -35,7 +36,7 @@ const PokemonTypeBackground = ({ type, color }: { type: string; color: string; }
   )
 }
 
-export function PokemonCard({ pokemonList, columns = 3, onPokemonPress, onDeletePress, cardWidth, hideStats, imageBackgroundColor, borderColor, activeStatName }: PokemonCardProps) {
+export function PokemonCard({ pokemonList, columns = 3, onPokemonPress, onDeletePress, cardWidth, hideStats, imageBackgroundColor, borderColor, activeStatName, activePokemonId }: PokemonCardProps) {
   const StatBar = ({ label, apiName, value, color }: { label: string, apiName: string, value?: number, color: string }) => {
     const isActive = apiName === activeStatName;
     return (
@@ -69,7 +70,11 @@ export function PokemonCard({ pokemonList, columns = 3, onPokemonPress, onDelete
             </View>
 
             <TouchableOpacity
-              style={[styles.card, borderColor ? { borderColor } : undefined]}
+              style={[
+                styles.card, 
+                borderColor ? { borderColor } : undefined,
+                activePokemonId === item.id && { borderColor: colors.types.electric, borderWidth: 3 }
+              ]}
               activeOpacity={0.7}
               onPress={() => onPokemonPress && onPokemonPress(item)}
             >
