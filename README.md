@@ -24,7 +24,7 @@ a [PokeAPI](https://pokeapi.co) fornece dados visuais complementares.
 | Fontes | Space Grotesk, Space Mono |
 
 > A documentação versionada do Expo está em
-> https://docs.expo.dev/versions/v56.0.0/ — consulte-a antes de escrever código.
+> https://docs.expo.dev/versions/v56.0.0/ 
 
 ---
 
@@ -32,10 +32,7 @@ a [PokeAPI](https://pokeapi.co) fornece dados visuais complementares.
 
 ```bash
 npm install
-npm run web        # navegador
-npm run android    # emulador/dispositivo Android
-npm run ios        # simulador iOS (macOS)
-npm start          # escolhe a plataforma no Expo
+npx expo start --iniciar o projeto
 ```
 
 Não há etapa de build de tipos no `package.json`. Para checar os tipos manualmente:
